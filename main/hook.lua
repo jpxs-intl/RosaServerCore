@@ -1,7 +1,36 @@
+--- all hooks
+--- @type table<string, table<string, function>>
 local _hooks = {}
+
+--- all temporary hooks, for hook.once
+--- @type table<string, function[]>
 local _tempHooks = {}
 
+--- Cache of enabled hooks
+--- @type table<string, function[]>
 local _cache = {}
+
+---@class FunctionData
+---@field name string
+---@field eventName string
+
+--- keeps name of each function for debugging
+--- @type table<function, FunctionData>
+hook._functionData = {}
+
+---@class HookRunInfo
+---@field time number
+---@field name string
+
+--- @class HookInfo
+---@field time number
+---@field runs table<string, HookRunInfo>
+
+---keeps track of last run info
+--- @type table<string, table<HookInfo>>
+hook._lastRunInfo = {}
+
+local IS_DEBUG = true
 
 local pairs = pairs
 local ipairs = ipairs
@@ -19,7 +48,7 @@ hook.override = OVERRIDE
 hook.plugins = {}
 
 ---Regenerate the cache of enabled hooks.
-function hook.resetCache ()
+function hook.resetCache()
 	hook.clear()
 	_cache = {}
 
@@ -52,6 +81,15 @@ function hook.resetCache ()
 
 				for _, info in ipairs(infos) do
 					table.insert(sortingHooks[event], info)
+
+					if IS_DEBUG then
+						hook._functionData[info.func] = {
+							name = info.name,
+							eventName = event,
+						}
+
+						-- print('Added hook', info.name, 'for event', event)
+					end
 				end
 			end
 		end
@@ -63,7 +101,7 @@ function hook.resetCache ()
 			_cache[event] = {}
 		end
 
-		table.sort(infos, function (a, b)
+		table.sort(infos, function(a, b)
 			return a.priority < b.priority
 		end)
 
@@ -77,7 +115,7 @@ end
 ---@param eventName string The name of the event to be hooked.
 ---@param name string The unique name of the new hook.
 ---@param func function The function to be called when the hook runs.
-function hook.add (eventName, name, func)
+function hook.add(eventName, name, func)
 	assert(type(eventName) == 'string')
 	assert(type(func) == 'function')
 
@@ -86,13 +124,20 @@ function hook.add (eventName, name, func)
 	end
 
 	_hooks[eventName][name] = func
+	if IS_DEBUG then
+		hook._functionData[func] = {
+			name = name,
+			eventName = eventName,
+		}
+	end
+
 	hook.resetCache()
 end
 
 ---Add a generic hook to be run once.
 ---@param eventName string The name of the event to be hooked.
 ---@param func function The function to be called once when the hook runs.
-function hook.once (eventName, func)
+function hook.once(eventName, func)
 	assert(type(eventName) == 'string')
 	assert(type(func) == 'function')
 
@@ -107,7 +152,7 @@ end
 ---Remove a generic named hook.
 ---@param eventName string The name of the event to be hooked.
 ---@param name string The unique name of the hook to remove.
-function hook.remove (eventName, name)
+function hook.remove(eventName, name)
 	assert(type(eventName) == 'string')
 	if _hooks[eventName] == nil then return end
 
@@ -119,13 +164,31 @@ end
 ---@param eventName string The name of the event.
 ---@vararg any The arguments to pass to the hook functions.
 ---@return boolean override Whether default behaviour should be overridden, if applicable.
-function hook.run (eventName, ...)
+function hook.run(eventName, ...)
 	local hadTemp = false
 
+	local hookInfo = {
+		eventName = eventName,
+		arguments = { ... },
+		runs = {}
+	}
+
+	local hookTotalStart = os.clock()
 	if _tempHooks[eventName] ~= nil then
 		local _tempOverride = false
 		for _, tempHookFunc in ipairs(_tempHooks[eventName]) do
+			local hookStart = os.clock()
+
 			local isOverride = tempHookFunc(...)
+
+			local diff = os.clock() - hookStart
+
+			local funcInfo = hook._functionData[tempHookFunc]
+
+			table.insert(hookInfo.runs, {
+				time = diff,
+				name = funcInfo and funcInfo.name or 'unknown',
+			})
 
 			if isOverride then
 				_tempOverride = true
@@ -141,8 +204,19 @@ function hook.run (eventName, ...)
 
 	local cache = _cache[eventName]
 	if cache ~= nil then
-		for _, hook in pairs(cache) do
-			local res = hook(...)
+		for _, hookFunc in pairs(cache) do
+			local hookStart = os.clock()
+
+			local res = hookFunc(...)
+
+			local diff = os.clock() - hookStart
+
+			local funcInfo = hook._functionData[hookFunc]
+
+			table.insert(hookInfo.runs, {
+				time = diff,
+				name = funcInfo and funcInfo.name or 'unknown',
+			})
 
 			if res == CONTINUE then
 				return false
@@ -151,6 +225,13 @@ function hook.run (eventName, ...)
 				return true
 			end
 		end
+
+		local diff = os.clock() - hookTotalStart
+
+		hook._lastRunInfo[eventName] = {
+			time = diff,
+			runs = hookInfo.runs,
+		}
 	elseif hadTemp then
 		hook.disable(eventName)
 	end
@@ -163,7 +244,7 @@ end
 ---@param command table The command table.
 ---@param plyOrArgs Player|table The calling player, or a table of arguments if it is a console command.
 ---@return boolean canCall Whether the command can be called given the conditions.
-function hook.canCallCommand (name, command, plyOrArgs)
+function hook.canCallCommand(name, command, plyOrArgs)
 	if not name:startsWith('/') then
 		-- This is a console-only command
 		return type(plyOrArgs) == 'table'
@@ -176,7 +257,7 @@ function hook.canCallCommand (name, command, plyOrArgs)
 	end
 end
 
-local function callCommand (name, command, plyOrArgs, ...)
+local function callCommand(name, command, plyOrArgs, ...)
 	if not hook.canCallCommand(name, command, plyOrArgs) then
 		error('Access denied')
 	end
@@ -186,7 +267,7 @@ end
 
 ---Get all enabled commands.
 ---@return table commands The name of each command mapped to their command table.
-function hook.getCommands ()
+function hook.getCommands()
 	local commands = {}
 
 	for _, plugin in pairs(hook.plugins) do
@@ -203,7 +284,7 @@ end
 ---Find a command by its name or alias.
 ---@param name string The name or alias of the command to find.
 ---@return table? command The found command, if any.
-function hook.findCommand (name)
+function hook.findCommand(name)
 	for _, plugin in pairs(hook.plugins) do
 		if plugin.isEnabled then
 			local command = plugin.commands[name]
@@ -222,7 +303,7 @@ function hook.findCommand (name)
 	return nil
 end
 
-local function commandNameStartsWith (name, beginning)
+local function commandNameStartsWith(name, beginning)
 	if name:startsWith(beginning) then
 		return true
 	end
@@ -238,7 +319,7 @@ end
 ---@param beginning string The name to auto complete.
 ---@return string? name The full name of the found command, if any.
 ---@return table? command The found command, if any.
-function hook.autoCompleteCommand (beginning)
+function hook.autoCompleteCommand(beginning)
 	--- Check raw names first
 	for _, plugin in pairs(hook.plugins) do
 		if plugin.isEnabled then
@@ -273,7 +354,7 @@ end
 ---@param nameSpace string? The plugin name space to limit the search to.
 ---@return string? name The full file name of the found plugin, if any.
 ---@return Plugin? plugin The found plugin, if any.
-function hook.autoCompletePlugin (beginning, nameSpace)
+function hook.autoCompletePlugin(beginning, nameSpace)
 	beginning = beginning:lower()
 
 	for _, plugin in pairs(hook.plugins) do
@@ -289,7 +370,7 @@ end
 ---@param name string The name of the desired plugin.
 ---@param nameSpace string? The plugin name space to limit the search to.
 ---@return Plugin? plugin The found plugin, if any.
-function hook.getPluginByName (name, nameSpace)
+function hook.getPluginByName(name, nameSpace)
 	name = name:lower()
 
 	for _, plugin in pairs(hook.plugins) do
@@ -306,7 +387,7 @@ end
 ---@param command table? The command to run, usually the result of hook.findCommand.
 ---@vararg any The rest of the parameters the command expects.
 ---@see hook.findCommand
-function hook.runCommand (name, command, ...)
+function hook.runCommand(name, command, ...)
 	if command ~= nil then
 		callCommand(name, command, ...)
 		return true

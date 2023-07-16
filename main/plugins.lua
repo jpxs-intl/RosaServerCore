@@ -65,6 +65,11 @@ end
 ---@field call fun(player: Player, human?: Human, args: string[]) Calls the command.
 ---@field cooldownTime number? How many seconds a player has to wait before using the command again.
 
+---@class PluginHookInfo
+---@field func function The function to be called when the hook runs.
+---@field priority number The priority of the hook, where lower priorities are executed first.
+---@field name string The name of the plugin that owns the hook.
+
 ---@class Plugin
 ---@field name string The name of the plugin.
 ---@field author string The author of the plugin.
@@ -78,6 +83,7 @@ end
 ---@field doAutoReload boolean
 ---@field nameSpace string
 ---@field entryPath string
+---@field polyHooks table<string, PluginHookInfo[]>
 local plugin = {}
 plugin.__index = plugin
 
@@ -179,9 +185,12 @@ function plugin:addHook (eventName, func, options)
 
 	options = options or {}
 
+	print(self.name .. ' is hooking ' .. eventName .. ' with priority ' .. (options.priority or 0))
+
 	table.insert(self.polyHooks[eventName], {
 		func = func,
-		priority = options.priority or 0
+		priority = options.priority or 0,
+		name = self.name
 	})
 end
 
