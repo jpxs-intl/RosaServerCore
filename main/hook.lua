@@ -38,15 +38,6 @@ local ipairs = ipairs
 local CONTINUE = 1
 local OVERRIDE = 2
 
----@alias HookReturn 1 | 2 | nil
----@alias HookNoOverride 1 | nil
-
----@class ConsoleAutoCompleteData
----@field response string If data.response is changed, the console's current buffer will be changed to that string.
-
----@class SendConnectResponseData
----@field message string data.message can be changed to alter the message that is sent.
-
 ---Stops further hooks of this type from running.
 hook.continue = CONTINUE
 ---Stops further hooks and overrides default game functionality.
