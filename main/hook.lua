@@ -121,6 +121,7 @@ function hook.resetCache()
 end
 
 ---@class HookGlobal
+---For full hook documentation, see the docs at https://github.com/jpxs-intl/RosaServer/wiki/Hooks.
 ---@field add fun(eventName: "AccountDeathTax", name: string, func: hooks.AccountDeathTaxHook)
 ---@field add fun(eventName: "AccountTicketBegin", name: string, func: hooks.AccountTicketBeginHook)
 ---@field add fun(eventName: "AccountTicketFound", name: string, func: hooks.AccountTicketFoundHook)
