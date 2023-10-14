@@ -312,7 +312,7 @@ function plugin:addHook (eventName, func, options)
 
 	options = options or {}
 
-	print(self.name .. ' is hooking ' .. eventName .. ' with priority ' .. (options.priority or 0))
+	-- print(self.name .. ' is hooking ' .. eventName .. ' with priority ' .. (options.priority or 0))
 
 	table.insert(self.polyHooks[eventName], {
 		func = func,
