@@ -85,7 +85,7 @@ FILE_WATCH_UNMOUNT = 0
 ---The hook.run function must be defined to use hooks.
 ---@class HookGlobal
 hook = {
-	persistentMode = ''
+	persistentMode = "",
 }
 
 ---Enable a hook for use in Lua.

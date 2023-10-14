@@ -251,8 +251,8 @@ end
 ---@param name string The unique name of the new hook.
 ---@param func function The function to be called when the hook runs.
 function hook.add(eventName, name, func)
-	assert(type(eventName) == 'string')
-	assert(type(func) == 'function')
+	assert(type(eventName) == "string")
+	assert(type(func) == "function")
 
 	if _hooks[eventName] == nil then
 		_hooks[eventName] = {}
@@ -273,8 +273,8 @@ end
 ---@param eventName string The name of the event to be hooked.
 ---@param func function The function to be called once when the hook runs.
 function hook.once(eventName, func)
-	assert(type(eventName) == 'string')
-	assert(type(func) == 'function')
+	assert(type(eventName) == "string")
+	assert(type(func) == "function")
 
 	if _tempHooks[eventName] == nil then
 		_tempHooks[eventName] = {}
@@ -288,8 +288,10 @@ end
 ---@param eventName string The name of the event to be hooked.
 ---@param name string The unique name of the hook to remove.
 function hook.remove(eventName, name)
-	assert(type(eventName) == 'string')
-	if _hooks[eventName] == nil then return end
+	assert(type(eventName) == "string")
+	if _hooks[eventName] == nil then
+		return
+	end
 
 	_hooks[eventName][name] = nil
 	hook.resetCache()
@@ -305,7 +307,7 @@ function hook.run(eventName, ...)
 	local hookInfo = {
 		eventName = eventName,
 		arguments = { ... },
-		runs = {}
+		runs = {},
 	}
 
 	local hookTotalStart = os.clock()
@@ -322,7 +324,7 @@ function hook.run(eventName, ...)
 
 			table.insert(hookInfo.runs, {
 				time = diff,
-				name = funcInfo and funcInfo.name or 'unknown',
+				name = funcInfo and funcInfo.name or "unknown",
 			})
 
 			if isOverride then
@@ -350,7 +352,7 @@ function hook.run(eventName, ...)
 
 			table.insert(hookInfo.runs, {
 				time = diff,
-				name = funcInfo and funcInfo.name or 'unknown',
+				name = funcInfo and funcInfo.name or "unknown",
 			})
 
 			if res == CONTINUE then
@@ -380,9 +382,9 @@ end
 ---@param plyOrArgs Player|table The calling player, or a table of arguments if it is a console command.
 ---@return boolean canCall Whether the command can be called given the conditions.
 function hook.canCallCommand(name, command, plyOrArgs)
-	if not name:startsWith('/') then
+	if not name:startsWith("/") then
 		-- This is a console-only command
-		return type(plyOrArgs) == 'table'
+		return type(plyOrArgs) == "table"
 	else
 		if command.canCall then
 			return not not command.canCall(plyOrArgs)
@@ -394,7 +396,7 @@ end
 
 local function callCommand(name, command, plyOrArgs, ...)
 	if not hook.canCallCommand(name, command, plyOrArgs) then
-		error('Access denied')
+		error("Access denied")
 	end
 
 	command.call(plyOrArgs, ...)
@@ -443,7 +445,7 @@ local function commandNameStartsWith(name, beginning)
 		return true
 	end
 
-	if name:startsWith('/') then
+	if name:startsWith("/") then
 		return name:sub(2):startsWith(beginning)
 	end
 
