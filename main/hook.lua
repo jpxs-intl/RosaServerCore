@@ -247,7 +247,7 @@ end
 ---@field add fun(eventName: "VehicleDelete", name: string, func: hooks.VehicleDeleteHook)
 ---@field add fun(eventName: string, name: string, func: function)
 
----Add a generic named hook.
+---Add a generic named hook. For full hook documentation, see the docs at https://github.com/jpxs-intl/RosaServer/wiki/Hooks.
 ---@param eventName string The name of the event to be hooked.
 ---@param name string The unique name of the new hook.
 ---@param func function The function to be called when the hook runs.
