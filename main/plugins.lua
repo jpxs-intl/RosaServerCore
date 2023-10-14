@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 local json = require 'main.json'
 
 local PLUGIN_WATCHER = FileWatcher.new()
@@ -60,7 +61,7 @@ end
 ---@field info string What the command does.
 ---@field usage string? How to use the command.
 ---@field alias string[]? Aliases of the command.
----@field canCall fun(player: Player)?: boolean Function which checks whether a player can call this command.
+---@field canCall (fun(player: Player): boolean)? Function which checks whether a player can call this command.
 ---@field autoComplete fun(args: string[])? Function which manipulates arguments when pressing tab in the terminal.
 ---@field call fun(player: Player, human?: Human, args: string[]) Calls the command.
 ---@field cooldownTime number? How many seconds a player has to wait before using the command again.
@@ -80,10 +81,136 @@ end
 ---@field config table
 ---@field isEnabled boolean
 ---@field fileName string
+---@field fullFileName string?
 ---@field doAutoReload boolean
 ---@field nameSpace string
 ---@field entryPath string
 ---@field polyHooks table<string, PluginHookInfo[]>
+---For full hook documentation, see the docs at https://github.com/jpxs-intl/RosaServer/wiki/Hooks.
+---@field addHook fun(self: Plugin, eventName: "AccountDeathTax", func: hooks.AccountDeathTaxHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "AccountTicketBegin", func: hooks.AccountTicketBeginHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "AccountTicketFound", func: hooks.AccountTicketFoundHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "AccountsSave", func: hooks.AccountsSaveHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "AreaCreateBlock", func: hooks.AreaCreateBlockHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "AreaDeleteBlock", func: hooks.AreaDeleteBlockHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "BulletCreate", func: hooks.BulletCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "BulletHitHuman", func: hooks.BulletHitHumanHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "BulletMayHit", func: hooks.BulletMayHitHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "BulletMayHitHuman", func: hooks.BulletMayHitHumanHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "CalculateEarShots", func: hooks.CalculateEarShotsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "CollideBodies", func: hooks.CollideBodiesHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ConsoleAutoComplete", func: hooks.ConsoleAutoCompleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ConsoleInput", func: hooks.ConsoleInputHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "CreateTraffic", func: hooks.CreateTrafficHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EconomyCarMarket", func: hooks.EconomyCarMarketHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventBullet", func: hooks.EventBulletHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventBulletHit", func: hooks.EventBulletHitHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventMessage", func: hooks.EventMessageHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventSound", func: hooks.EventSoundHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventUpdateItemInfo", func: hooks.EventUpdateItemInfoHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventUpdatePlayerFinance", func: hooks.EventUpdatePlayerFinanceHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventUpdatePlayer", func: hooks.EventUpdatePlayerHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "EventUpdateVehicle", func: hooks.EventUpdateVehicleHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "GrenadeExplode", func: hooks.GrenadeExplodeHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "HumanCollisionVehicle", func: hooks.HumanCollisionVehicleHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "HumanCreate", func: hooks.HumanCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "HumanDamage", func: hooks.HumanDamageHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "HumanDelete", func: hooks.HumanDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "HumanLimbInverseKinematics", func: hooks.HumanLimbInverseKinematicsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "InterruptSignal", func: hooks.InterruptSignalHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ItemComputerInput", func: hooks.ItemComputerInputHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ItemCreate", func: hooks.ItemCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ItemDelete", func: hooks.ItemDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ItemLink", func: hooks.ItemLinkHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "LineIntersectHuman", func: hooks.LineIntersectHumanHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "LogicCoop", func: hooks.LogicCoopHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "LogicRace", func: hooks.LogicRaceHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "LogicRound", func: hooks.LogicRoundHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "LogicTerminator", func: hooks.LogicTerminatorHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "LogicVersus", func: hooks.LogicVersusHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "LogicWorld", func: hooks.LogicWorldHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "Logic", func: hooks.LogicHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PacketBuilding", func: hooks.PacketBuildingHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PhysicsBullets", func: hooks.PhysicsBulletsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "Physics", func: hooks.PhysicsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PhysicsRigidBodies", func: hooks.PhysicsRigidBodiesHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PlayerAI", func: hooks.PlayerAIHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PlayerActions", func: hooks.PlayerActionsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PlayerChat", func: hooks.PlayerChatHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PlayerCreate", func: hooks.PlayerCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PlayerDeathTax", func: hooks.PlayerDeathTaxHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PlayerDelete", func: hooks.PlayerDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PlayerGiveWantedLevel", func: hooks.PlayerGiveWantedLevelHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostAccountDeathTax", func: hooks.PostAccountDeathTaxHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostAccountTicket", func: hooks.PostAccountTicketHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostAccountsSave", func: hooks.PostAccountsSaveHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostAreaCreateBlock", func: hooks.PostAreaCreateBlockHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostAreaDeleteBlock", func: hooks.PostAreaDeleteBlockHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostBulletCreate", func: hooks.PostBulletCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostCalculateEarShots", func: hooks.PostCalculateEarShotsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEconomyCarMarket", func: hooks.PostEconomyCarMarketHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventBullet", func: hooks.PostEventBulletHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventBulletHit", func: hooks.PostEventBulletHitHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventMessage", func: hooks.PostEventMessageHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventSound", func: hooks.PostEventSoundHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventUpdateItemInfo", func: hooks.PostEventUpdateItemInfoHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventUpdatePlayerFinance", func: hooks.PostEventUpdatePlayerFinanceHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventUpdatePlayer", func: hooks.PostEventUpdatePlayerHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostEventUpdateVehicle", func: hooks.PostEventUpdateVehicleHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostGrenadeExplode", func: hooks.PostGrenadeExplodeHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostHumanCollisionVehicle", func: hooks.PostHumanCollisionVehicleHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostHumanCreate", func: hooks.PostHumanCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostHumanDamage", func: hooks.PostHumanDamageHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostHumanDelete", func: hooks.PostHumanDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostHumanLimbInverseKinematics", func: hooks.PostHumanLimbInverseKinematicsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostInterruptSignal", func: hooks.PostInterruptSignalHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostItemComputerInput", func: hooks.PostItemComputerInputHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostItemCreate", func: hooks.PostItemCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostItemDelete", func: hooks.PostItemDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostItemLink", func: hooks.PostItemLinkHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLevelCreate", func: hooks.PostLevelCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLineIntersectHuman", func: hooks.PostLineIntersectHumanHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLogicCoop", func: hooks.PostLogicCoopHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLogicRace", func: hooks.PostLogicRaceHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLogicRound", func: hooks.PostLogicRoundHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLogicTerminator", func: hooks.PostLogicTerminatorHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLogicVersus", func: hooks.PostLogicVersusHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLogicWorld", func: hooks.PostLogicWorldHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostLogic", func: hooks.PostLogicHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPacketBuilding", func: hooks.PostPacketBuildingHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPhysicsBullets", func: hooks.PostPhysicsBulletsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPhysics", func: hooks.PostPhysicsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPhysicsRigidBodies", func: hooks.PostPhysicsRigidBodiesHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPlayerAI", func: hooks.PostPlayerAIHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPlayerActions", func: hooks.PostPlayerActionsHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPlayerChat", func: hooks.PostPlayerChatHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPlayerCreate", func: hooks.PostPlayerCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPlayerDeathTax", func: hooks.PostPlayerDeathTaxHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPlayerDelete", func: hooks.PostPlayerDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostPlayerGiveWantedLevel", func: hooks.PostPlayerGiveWantedLevelHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostResetGame", func: hooks.PostResetGameHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostSendConnectResponse", func: hooks.PostSendConnectResponseHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostSendPacket", func: hooks.PostSendPacketHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostServerReceive", func: hooks.PostServerReceiveHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostServerSend", func: hooks.PostServerSendHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostTrafficCarAI", func: hooks.PostTrafficCarAIHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostTrafficCarDestination", func: hooks.PostTrafficCarDestinationHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostTrafficSimulation", func: hooks.PostTrafficSimulationHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostVehicleCreate", func: hooks.PostVehicleCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostVehicleDamage", func: hooks.PostVehicleDamageHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "PostVehicleDelete", func: hooks.PostVehicleDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ResetGame", func: hooks.ResetGameHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "SendConnectResponse", func: hooks.SendConnectResponseHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "SendPacket", func: hooks.SendPacketHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ServerReceive", func: hooks.ServerReceiveHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "ServerSend", func: hooks.ServerSendHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "TrafficCarAI", func: hooks.TrafficCarAIHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "TrafficCarDestination", func: hooks.TrafficCarDestinationHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "TrafficSimulation", func: hooks.TrafficSimulationHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "VehicleCreate", func: hooks.VehicleCreateHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "VehicleDamage", func: hooks.VehicleDamageHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: "VehicleDelete", func: hooks.VehicleDeleteHook, options?: PluginHookOptions)
+---@field addHook fun(self: Plugin, eventName: string, func: function, options?: PluginHookOptions)
 local plugin = {}
 plugin.__index = plugin
 
@@ -214,7 +341,7 @@ function plugin:addDisableHandler (func)
 end
 
 function plugin:callDisableHandlers (isReload)
-	self:onDisable(isReload)
+	self.onDisable(isReload)
 	for _, func in ipairs(self.polyDisableHandlers) do
 		func(isReload)
 	end
@@ -275,12 +402,12 @@ end
 
 ---Indicate the plugin has been enabled.
 ---@param isReload boolean
----@deprecated
+---@private
 function plugin.onEnable (isReload) end
 
 ---Indicate the plugin has been disabled.
 ---@param isReload boolean
----@deprecated
+---@private
 function plugin.onDisable (isReload) end
 
 local function newPlugin (nameSpace, stem)

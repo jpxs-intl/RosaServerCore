@@ -1,0 +1,124 @@
+---@meta
+---@alias hooks.AccountDeathTaxHook fun(account: Account): HookReturn
+---@alias hooks.AccountTicketBeginHook fun(identifier: integer, ticket: integer): HookReturn
+---@alias hooks.AccountTicketFoundHook fun(account?: Account): HookReturn
+---@alias hooks.AccountsSaveHook fun(): HookReturn
+---@alias hooks.AreaCreateBlockHook fun(blockX: integer, blockY: integer, blockZ: integer, flags: integer): HookReturn
+---@alias hooks.AreaDeleteBlockHook fun(blockX: integer, blockY: integer, blockZ: integer): HookReturn
+---@alias hooks.BulletCreateHook fun(type: integer, position: Vector, velocity: Vector, player: Player): HookReturn
+---@alias hooks.BulletHitHumanHook fun(human: Human, bullet: Bullet): HookReturn
+---@alias hooks.BulletMayHitHook fun(bullet: Bullet): HookNoOverride
+---@alias hooks.BulletMayHitHumanHook fun(bullet: Bullet): HookNoOverride
+---@alias hooks.CalculateEarShotsHook fun(connection: Connection, player: Player): HookReturn
+---@alias hooks.CollideBodiesHook fun(aBody: RigidBody, bBody: RigidBody, aLocalPos: Vector, bLocalPos: Vector, normal: Vector, a: number, b: number, c: number, d: number): HookReturn
+---@alias hooks.ConsoleAutoCompleteHook fun(data: ConsoleAutoCompleteData): HookNoOverride	
+---@alias hooks.ConsoleInputHook fun(input: string): HookNoOverride
+---@alias hooks.CreateTrafficHook fun(amount: integer): HookReturn
+---@alias hooks.EconomyCarMarketHook fun(): HookReturn
+---@alias hooks.EventBulletHook fun(type: integer, position: Vector, velocity: Vector, item: Item): HookReturn
+---@alias hooks.EventBulletHitHook fun(hitType: integer, position: Vector, normal: Vector): HookReturn
+---@alias hooks.EventMessageHook fun(speakerType: integer, message: string, speakerID: integer, volumeLevel: integer): HookReturn
+---@alias hooks.EventSoundHook fun(soundType: integer, position: Vector, volume: number, pitch: number): HookReturn
+---@alias hooks.EventUpdateItemInfoHook fun(item: Item): HookReturn
+---@alias hooks.EventUpdatePlayerFinanceHook fun(player: Player): HookReturn
+---@alias hooks.EventUpdatePlayerHook fun(player: Player): HookReturn
+---@alias hooks.EventUpdateVehicleHook fun(vehicle: Vehicle, updateType: integer, partID: integer, position: Vector, normal: Vector): HookReturn
+---@alias hooks.GrenadeExplodeHook fun(grenade: Item): HookReturn
+---@alias hooks.HumanCollisionVehicleHook fun(human: Human, vehicle: Vehicle): HookReturn
+---@alias hooks.HumanCreateHook fun(position: Vector, rotation: RotMatrix, player: Player): HookReturn	
+---@alias hooks.HumanDamageHook fun(human: Human, bone: integer, damage: integer): HookReturn
+---@alias hooks.HumanDeleteHook fun(human: Human): HookReturn
+---@alias hooks.HumanLimbInverseKinematicsHook fun(human: Human, trunkBoneID: integer, branchBoneID: integer, destination: Vector, destinationAxis: RotMatrix, unk_vecA: Vector, unk_a: number, rotation: number, strength: number, unk_vecB: Vector, unk_vecC: Vector, flags: integer): HookReturn
+---@alias hooks.InterruptSignalHook fun(): HookNoOverride
+---@alias hooks.ItemComputerInputHook fun(computer: Item, character: integer): HookReturn
+---@alias hooks.ItemCreateHook fun(type: ItemType, position: Vector, rotation: RotMatrix): HookReturn
+---@alias hooks.ItemDeleteHook fun(item: Item): HookReturn
+---@alias hooks.ItemLinkHook fun(item: Item, childItem?: Item, parentHuman?: Human, slot: integer): HookReturn
+---@alias hooks.LineIntersectHumanHook fun(human: Human, posA: Vector, posB: Vector): HookReturn
+---@alias hooks.LogicCoopHook fun(): HookReturn
+---@alias hooks.LogicRaceHook fun(): HookReturn
+---@alias hooks.LogicRoundHook fun(): HookReturn
+---@alias hooks.LogicTerminatorHook fun(): HookReturn
+---@alias hooks.LogicVersusHook fun(): HookReturn
+---@alias hooks.LogicWorldHook fun(): HookReturn
+---@alias hooks.LogicHook fun(): HookReturn
+---@alias hooks.PacketBuildingHook fun(connection: Connection): HookNoOverride
+---@alias hooks.PhysicsBulletsHook fun(): HookReturn
+---@alias hooks.PhysicsHook fun(): HookReturn
+---@alias hooks.PhysicsRigidBodiesHook fun(): HookReturn
+---@alias hooks.PlayerAIHook fun(bot: Player): HookReturn
+---@alias hooks.PlayerActionsHook fun(player: Player): HookReturn
+---@alias hooks.PlayerChatHook fun(player: Player, message: string): HookReturn
+---@alias hooks.PlayerCreateHook fun(): HookReturn
+---@alias hooks.PlayerDeathTaxHook fun(player: Player): HookReturn
+---@alias hooks.PlayerDeleteHook fun(player: Player): HookReturn
+---@alias hooks.PlayerGiveWantedLevelHook fun(player: Player, victim: Player, basePoints: integer): HookReturn
+---@alias hooks.PostAccountDeathTaxHook fun(account: Account): HookNoOverride
+---@alias hooks.PostAccountTicketHook fun(account?: Account): HookNoOverride
+---@alias hooks.PostAccountsSaveHook fun(): HookNoOverride
+---@alias hooks.PostAreaCreateBlockHook fun(blockX: integer, blockY: integer, blockZ: integer, flags: integer): HookNoOverride
+---@alias hooks.PostAreaDeleteBlockHook fun(blockX: integer, blockY: integer, blockZ: integer): HookNoOverride
+---@alias hooks.PostBulletCreateHook fun(bullet: Bullet): HookNoOverride
+---@alias hooks.PostCalculateEarShotsHook fun(connection: Connection, player: Player): HookNoOverride
+---@alias hooks.PostEconomyCarMarketHook fun(): HookNoOverride
+---@alias hooks.PostEventBulletHook fun(type: integer, position: Vector, velocity: Vector, item: Item): HookNoOverride
+---@alias hooks.PostEventBulletHitHook fun(hitType: integer, position: Vector, normal: Vector): HookNoOverride
+---@alias hooks.PostEventMessageHook fun(speakerType: integer, message: string, speakerID: integer, volumeLevel: integer): HookNoOverride
+---@alias hooks.PostEventSoundHook fun(soundType: integer, position: Vector, volume: number, pitch: number): HookNoOverride
+---@alias hooks.PostEventUpdateItemInfoHook fun(item: Item): HookNoOverride
+---@alias hooks.PostEventUpdatePlayerFinanceHook fun(player: Player): HookNoOverride
+---@alias hooks.PostEventUpdatePlayerHook fun(player: Player): HookNoOverride
+---@alias hooks.PostEventUpdateVehicleHook fun(vehicle: Vehicle, updateType: integer, partID: integer, position: Vector, normal: Vector): HookNoOverride
+---@alias hooks.PostGrenadeExplodeHook fun(grenade: Item): HookNoOverride
+---@alias hooks.PostHumanCollisionVehicleHook fun(human: Human, vehicle: Vehicle): HookNoOverride
+---@alias hooks.PostHumanCreateHook fun(human: Human): HookNoOverride	
+---@alias hooks.PostHumanDamageHook fun(human: Human, bone: integer, damage: integer): HookNoOverride
+---@alias hooks.PostHumanDeleteHook fun(human: Human): HookNoOverride
+---@alias hooks.PostHumanLimbInverseKinematicsHook fun(human: Human, trunkBoneID: integer, branchBoneID: integer, destination: Vector, destinationAxis: RotMatrix, unk_vecA: Vector, unk_a: number, rotation: number, strength: number, unk_vecB: Vector, unk_vecC: Vector, flags: integer): HookReturn
+---@alias hooks.PostInterruptSignalHook fun(): HookNoOverride
+---@alias hooks.PostItemComputerInputHook fun(computer: Item, character: integer): HookNoOverride
+---@alias hooks.PostItemCreateHook fun(item: Item): HookNoOverride
+---@alias hooks.PostItemDeleteHook fun(item: Item): HookNoOverride
+---@alias hooks.PostItemLinkHook fun(item: Item, childItem?: Item, parentHuman?: Human, slot: integer, worked: boolean): HookNoOverride
+---@alias hooks.PostLevelCreateHook fun(): HookNoOverride
+---@alias hooks.PostLineIntersectHumanHook fun(human: Human, posA: Vector, posB: Vector): HookNoOverride
+---@alias hooks.PostLogicCoopHook fun(): HookNoOverride
+---@alias hooks.PostLogicRaceHook fun(): HookNoOverride
+---@alias hooks.PostLogicRoundHook fun(): HookNoOverride
+---@alias hooks.PostLogicTerminatorHook fun(): HookNoOverride
+---@alias hooks.PostLogicVersusHook fun(): HookNoOverride
+---@alias hooks.PostLogicWorldHook fun(): HookNoOverride
+---@alias hooks.PostLogicHook fun(): HookNoOverride
+---@alias hooks.PostPacketBuildingHook fun(connection: Connection): HookNoOverride
+---@alias hooks.PostPhysicsBulletsHook fun(): HookNoOverride
+---@alias hooks.PostPhysicsHook fun(): HookNoOverride
+---@alias hooks.PostPhysicsRigidBodiesHook fun(): HookNoOverride
+---@alias hooks.PostPlayerAIHook fun(bot: Player): HookNoOverride
+---@alias hooks.PostPlayerActionsHook fun(player: Player): HookNoOverride
+---@alias hooks.PostPlayerChatHook fun(player: Player, message: string): HookNoOverride
+---@alias hooks.PostPlayerCreateHook fun(player: Player): HookNoOverride
+---@alias hooks.PostPlayerDeathTaxHook fun(player: Player): HookNoOverride
+---@alias hooks.PostPlayerDeleteHook fun(player: Player): HookNoOverride
+---@alias hooks.PostPlayerGiveWantedLevelHook fun(player: Player, victim: Player, basePoints: integer): HookNoOverride
+---@alias hooks.PostResetGameHook fun(reason: integer): HookNoOverride
+---@alias hooks.PostSendConnectResponseHook fun(address: string, port: integer, data: SendConnectResponseData): HookNoOverride
+---@alias hooks.PostSendPacketHook fun(address: string, port: integer, packetType: integer, packetSize: integer): HookNoOverride
+---@alias hooks.PostServerReceiveHook fun(): HookNoOverride
+---@alias hooks.PostServerSendHook fun(): HookNoOverride
+---@alias hooks.PostTrafficCarAIHook fun(): HookNoOverride
+---@alias hooks.PostTrafficCarDestinationHook fun(): HookNoOverride
+---@alias hooks.PostTrafficSimulationHook fun(): HookNoOverride
+---@alias hooks.PostVehicleCreateHook fun(vehicle: Vehicle): HookNoOverride
+---@alias hooks.PostVehicleDamageHook fun(vehicle: Vehicle, damage: integer): HookNoOverride
+---@alias hooks.PostVehicleDeleteHook fun(vehicle: Vehicle): HookNoOverride
+---@alias hooks.ResetGameHook fun(reason: integer): HookReturn
+---@alias hooks.SendConnectResponseHook fun(address: string, port: integer, data: SendConnectResponseData): HookReturn
+---@alias hooks.SendPacketHook fun(address: string, port: integer, packetType: integer, packetSize: integer): HookReturn
+---@alias hooks.ServerReceiveHook fun(): HookReturn
+---@alias hooks.ServerSendHook fun(): HookReturn
+---@alias hooks.TrafficCarAIHook fun(trafficCar: TrafficCar): HookReturn
+---@alias hooks.TrafficCarDestinationHook fun(trafficCar: TrafficCar, a: integer, b: integer, c: integer, d: integer): HookReturn
+---@alias hooks.TrafficSimulationHook fun(): HookReturn
+---@alias hooks.VehicleCreateHook fun(type: VehicleType, position: Vector, rotation: RotMatrix, color: integer): HookReturn
+---@alias hooks.VehicleDamageHook fun(vehicle: Vehicle, damage: integer): HookReturn
+---@alias hooks.VehicleDeleteHook fun(vehicle: Vehicle): HookReturn

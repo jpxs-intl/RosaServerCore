@@ -1,3 +1,4 @@
+---@diagnostic disable: deprecated
 local workers = {}
 
 local callbacks = {}
@@ -30,6 +31,8 @@ local function getFreeCallbackIndex ()
 	return callbackIndex
 end
 
+---@diagnostic disable: missing-fields
+
 ---@param method string
 ---@param scheme string
 ---@param path string
@@ -47,6 +50,7 @@ local function request (method, scheme, path, headers, body, contentType, callba
 	end
 
 	if method == 'POST' then
+		---@cast body string
 		serialized = serialized .. ('ss'):pack(body, contentType)
 	end
 
@@ -63,10 +67,11 @@ local function handleMessage (message)
 	local res
 	if hasResponse == 1 then
 		res = {}
-		local status, body, numHeaders
-		status, body, numHeaders, pos = ('nsn'):unpack(message, pos)
+		---@type string
+		local status, numHeaders, body
+		status, body, numHeaders, pos = unpack({('nsn'):unpack(message, pos)})
 		res.status = status
-		res.body = body
+		res.body = body 
 
 		local headers = {}
 		for _ = 1, numHeaders do

@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 ---@type Plugin
 local plugin = ...
 plugin.name = 'Admin'
@@ -30,7 +31,8 @@ function adminLog (format, ...)
 	plugin:print(str)
 	chat.tellAdminsWrap('[Admin] ' .. str)
 
-	local logFile = io.open('admin-log.txt', 'a')
+	local logFile, err = io.open('admin-log.txt', 'a')
+	assert(logFile, err)
 	logFile:write('[' .. os.date("!%c") .. '] ' .. str .. '\n')
 	logFile:close()
 end

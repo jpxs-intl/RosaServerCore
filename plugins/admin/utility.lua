@@ -61,10 +61,15 @@ plugin.commands['/time'] = {
 
 		local split = args[1]:split(':')
 
-		local hours = math.floor(split[1]) % 24
+		local s1 = tonumber(split[1])
+		assert(s1)
+		local hours = math.floor(s1) % 24
 		local minutes = 0
+
+		local s2 = tonumber(split[2])
+		assert(s2)
 		if split[2] then
-			minutes = math.floor(split[2]) % 60
+			minutes = math.floor(s2) % 60
 		end
 
 		local allMinutes = minutes + hours * 60
@@ -85,10 +90,6 @@ plugin.commands['/posa'] = {
 		local pos = man.pos
 		local str = string.format('%i, %i, %i', math.floor(pos.x), math.floor(pos.y) - 2, math.floor(pos.z))
 		man:speak(str, 0)
-
-		if postText then
-			postText('Vector(' .. str .. ')')
-		end
 	end
 }
 
@@ -102,10 +103,6 @@ plugin.commands['/posb'] = {
 		local pos = man.pos
 		local str = string.format('%i, %i, %i', math.ceil(pos.x), math.ceil(pos.y), math.ceil(pos.z))
 		man:speak(str, 0)
-
-		if postText then
-			postText('Vector(' .. str .. ')')
-		end
 	end
 }
 
@@ -120,10 +117,6 @@ plugin.commands['/pos'] = {
 		local pos = man.pos
 		local str = string.format('%.2f, %.2f, %.2f', pos.x, pos.y, pos.z)
 		ply:sendMessage(str)
-
-		if ply.isAdmin and postText then
-			postText('Vector(' .. str .. ')')
-		end
 	end
 }
 

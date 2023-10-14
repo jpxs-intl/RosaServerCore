@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 ---@type Plugin
 local plugin = ...
 plugin.name = 'Whitelist'
@@ -13,10 +14,11 @@ local json = require 'main.json'
 
 local whitelistPath = 'whitelist.json'
 
----@type integer[]
+---@type integer[]?
 local whitelistedPhoneNumbers
 
 local function getWhitelistIndex (phoneNumber)
+	assert(whitelistedPhoneNumbers)
 	for i, p in ipairs(whitelistedPhoneNumbers) do
 		if p == phoneNumber then return i end
 	end
@@ -45,6 +47,7 @@ end
 local isNumberWhitelisted = isNumberWhitelisted
 
 local function saveWhitelist ()
+	assert(whitelistedPhoneNumbers)
 	local f, errorMessage = io.open(whitelistPath, 'w')
 	if f then
 		f:write(json.encode(whitelistedPhoneNumbers))
@@ -73,7 +76,6 @@ end)
 
 plugin:addHook(
 	'AccountTicketFound',
-	---@param acc Account
 	function (acc)
 		local maxPublicSlots = plugin.config.maxPublicSlots
 		local playerCount = #players.getNonBots()
@@ -105,6 +107,7 @@ plugin:addHook(
 plugin.commands['listwhitelist'] = {
 	info = 'List all whitelisted players.',
 	call = function ()
+		assert(whitelistedPhoneNumbers)
 		print(table.concat(whitelistedPhoneNumbers, ', '))
 	end
 }
@@ -125,6 +128,7 @@ plugin.commands['/whitelist'] = {
 			error('Phone number already whitelisted')
 		end
 
+		assert(whitelistedPhoneNumbers)
 		table.insert(whitelistedPhoneNumbers, phoneNumber)
 		saveWhitelist()
 
@@ -151,6 +155,7 @@ plugin.commands['/unwhitelist'] = {
 			error('Phone number not whitelisted')
 		end
 
+		assert(whitelistedPhoneNumbers)
 		table.remove(whitelistedPhoneNumbers, index)
 		saveWhitelist()
 

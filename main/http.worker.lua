@@ -1,3 +1,4 @@
+---@diagnostic disable: deprecated
 require 'main.util'
 
 ---@param message string
@@ -11,12 +12,15 @@ local function handleMessage (message)
 		headers[key] = value
 	end
 
+	-- Diagnostics disabled due to language server bug
 	---@type HTTPResponse?
 	local res
 	if method == 'POST' then
 		local body, contentType = ('ss'):unpack(message, pos)
+		---@diagnostic disable-next-line: param-type-mismatch
 		res = http.postSync(scheme, path, headers, body, contentType)
 	else
+		---@diagnostic disable-next-line: param-type-mismatch
 		res = http.getSync(scheme, path, headers)
 	end
 

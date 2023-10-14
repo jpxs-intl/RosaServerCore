@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 math.randomseed(os.time())
 
 require 'main.util'
@@ -98,6 +99,9 @@ local function attemptChatCommand (ply, message)
 	return hook.override
 end
 
+---@class Player
+---@field isConsole boolean? Set by RosaServerCore.
+
 local chatCooldownSeconds
 local consolePlayer = {
 	isConsole = true,
@@ -194,6 +198,7 @@ hook.add(
 		if not completedName then
 			return
 		end
+		---@cast command table
 
 		if command.autoComplete then
 			command.autoComplete(args)

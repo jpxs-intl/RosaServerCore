@@ -1,8 +1,13 @@
+---@diagnostic disable: lowercase-global
 ---Check if an object is active.
 ---@param object userdata? The object to check.
 ---@return boolean isActive Whether the parameter is an active object.
 function isActive (object)
-	return object and object.isActive
+	-- Done this way to resolve typing diagnostics
+	if object and object["isActive"] then
+		return true
+	end
+	return false
 end
 
 ---Announce a chat message with word wrapping on long strings.

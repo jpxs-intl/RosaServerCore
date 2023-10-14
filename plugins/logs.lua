@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 ---@type Plugin
 local plugin = ...
 plugin.name = 'Logs'
@@ -49,7 +50,8 @@ function log (format, ...)
 	local logLine = '[' .. os.date('%X') .. '] ' .. str
 	table.insert(cachedLines, logLine)
 
-	local logFile = io.open('logs/' .. os.date('%Y-%m-%d') .. '.txt', 'a')
+	local logFile, err = io.open('logs/' .. os.date('%Y-%m-%d') .. '.txt', 'a')
+	assert(logFile, err)
 	logFile:write(logLine .. '\n')
 	logFile:close()
 end

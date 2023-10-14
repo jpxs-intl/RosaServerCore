@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 ---@type Plugin
 local plugin = ...
 plugin.name = 'Boards'

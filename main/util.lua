@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 local mathSin = math.sin
 local mathCos = math.cos
 local mathMax = math.max
@@ -245,27 +246,30 @@ function vecRandBetween (vec1, vec2)
 end
 
 ---Check if a string starts with another string.
+---@param self string Added to avoid tying issues.
 ---@param start string The string to check against.
 ---@return boolean startsWith Whether this string starts with the other.
-function string:startsWith (start)
+function string.startsWith (self, start)
 	return self:sub(1, #start) == start
 end
 
 ---Check if a string ends with another string.
+---@param self string Added to avoid tying issues.
 ---@param ending string The string to check against.
 ---@return boolean endsWith Whether this string ends with the other.
-function string:endsWith (ending)
+function string.endsWith (self, ending)
 	return ending == '' or self:sub(-#ending) == ending
 end
 
 ---Split a string by its whitespace into lines of maximum length.
+---@param self string Added to avoid tying issues.
 ---@param maxLen integer The maximum length of every line.
 ---@return string[] lines The split lines.
-function string:splitMaxLen (maxLen)
+function string.splitMaxLen (self, maxLen)
 	local lines = {}
 	local line
 
-	self:gsub('(%s*)(%S+)', function (spc, word)
+	local _, _ = self:gsub('(%s*)(%S+)', function (spc, word)
 		if not line or #line + #spc + #word > maxLen then
 			table.insert(lines, line)
 			line = word
@@ -279,19 +283,22 @@ function string:splitMaxLen (maxLen)
 end
 
 ---Split a string into tokens using a separator character.
+---@param self string Added to avoid tying issues.
 ---@param sep string The separator character.
 ---@return string[] fields The split tokens.
-function string:split (sep)
+function string.split (self, sep)
 	sep = sep or ':'
 	local fields = {}
 	local pattern = string.format('([^%s]+)', sep)
-	self:gsub(pattern, function (c) fields[#fields + 1] = c end)
+	local _, _ = self:gsub(pattern, function (c) fields[#fields + 1] = c end)
 	return fields
 end
 
 ---Trim whitespace before and after a string.
+---@param self string Added to avoid tying issues.
 ---@return string trimmed The trimmed string.
-function string:trim ()
+---@return integer count
+function string.trim (self)
 	return self:gsub('^%s*(.-)%s*$', '%1')
 end
 
@@ -300,7 +307,8 @@ end
 ---@param amount number The number to format.
 ---@return string formatted The number formatted with commas.
 function commaNumber (amount)
-	local formatted = amount
+	local formatted = tostring(amount)
+	local k
 	while true do
 		formatted, k = string.gsub(formatted, '^(-?%d+)(%d%d%d)', '%1,%2')
 		if k == 0 then
