@@ -23,12 +23,12 @@
 ---@alias hooks.CollideBodies fun(aBody: RigidBody, bBody: RigidBody, aLocalPos: Vector, bLocalPos: Vector, normal: Vector, a: number, b: number, c: number, d: number): HookReturn
 ---@alias hooks.ConsoleAutoComplete fun(data: ConsoleAutoCompleteData): HookNoOverride	
 ---@alias hooks.ConsoleInput fun(input: string): HookNoOverride
----@alias hooks.CreateTraffic fun(amount: integer): HookReturn
+---@alias hooks.CreateTraffic fun(amount: HookInteger): HookReturn
 ---@alias hooks.EconomyCarMarket fun(): HookReturn
 ---@alias hooks.EventBullet fun(type: integer, position: Vector, velocity: Vector, item: Item): HookReturn
 ---@alias hooks.EventBulletHit fun(hitType: integer, position: Vector, normal: Vector): HookReturn
 ---@alias hooks.EventMessage fun(speakerType: integer, message: string, speakerID: integer, volumeLevel: integer): HookReturn
----@alias hooks.EventSound fun(soundType: integer, position: Vector, volume: number, pitch: number): HookReturn
+---@alias hooks.EventSound fun(soundType: integer, position: Vector, volume: HookFloat, pitch: HookFloat): HookReturn
 ---@alias hooks.EventUpdateItemInfo fun(item: Item): HookReturn
 ---@alias hooks.EventUpdatePlayerFinance fun(player: Player): HookReturn
 ---@alias hooks.EventUpdatePlayer fun(player: Player): HookReturn
@@ -38,7 +38,7 @@
 ---@alias hooks.HumanCreate fun(position: Vector, rotation: RotMatrix, player: Player): HookReturn	
 ---@alias hooks.HumanDamage fun(human: Human, bone: integer, damage: integer): HookReturn
 ---@alias hooks.HumanDelete fun(human: Human): HookReturn
----@alias hooks.HumanLimbInverseKinematics fun(human: Human, trunkBoneID: integer, branchBoneID: integer, destination: Vector, destinationAxis: RotMatrix, unk_vecA: Vector, unk_a: number, rotation: number, strength: number, unk_vecB: Vector, unk_vecC: Vector, flags: integer): HookReturn
+---@alias hooks.HumanLimbInverseKinematics fun(human: Human, trunkBoneID: integer, branchBoneID: integer, destination: Vector, destinationAxis: RotMatrix, unk_vecA: Vector, unk_a: HookFloat, rotation: HookFloat, strength: HookFloat, unk_vecB: Vector, unk_vecC: Vector, flags: HookInteger): HookReturn
 ---@alias hooks.InterruptSignal fun(): HookNoOverride
 ---@alias hooks.ItemComputerInput fun(computer: Item, character: integer): HookReturn
 ---@alias hooks.ItemCreate fun(type: ItemType, position: Vector, rotation: RotMatrix): HookReturn
@@ -62,7 +62,7 @@
 ---@alias hooks.PlayerCreate fun(): HookReturn
 ---@alias hooks.PlayerDeathTax fun(player: Player): HookReturn
 ---@alias hooks.PlayerDelete fun(player: Player): HookReturn
----@alias hooks.PlayerGiveWantedLevel fun(player: Player, victim: Player, basePoints: integer): HookReturn
+---@alias hooks.PlayerGiveWantedLevel fun(player: Player, victim: Player, basePoints: HookInteger): HookReturn
 ---@alias hooks.PostAccountDeathTax fun(account: Account): HookNoOverride
 ---@alias hooks.PostAccountTicket fun(account?: Account): HookNoOverride
 ---@alias hooks.PostAccountsSave fun(): HookNoOverride
@@ -127,7 +127,7 @@
 ---@alias hooks.ServerReceive fun(): HookReturn
 ---@alias hooks.ServerSend fun(): HookReturn
 ---@alias hooks.TrafficCarAI fun(trafficCar: TrafficCar): HookReturn
----@alias hooks.TrafficCarDestination fun(trafficCar: TrafficCar, a: integer, b: integer, c: integer, d: integer): HookReturn
+---@alias hooks.TrafficCarDestination fun(trafficCar: TrafficCar, a: HookInteger, b: HookInteger, c: HookInteger, d: HookInteger): HookReturn
 ---@alias hooks.TrafficSimulation fun(): HookReturn
 ---@alias hooks.VehicleCreate fun(type: VehicleType, position: Vector, rotation: RotMatrix, color: integer): HookReturn
 ---@alias hooks.VehicleDamage fun(vehicle: Vehicle, damage: integer): HookReturn

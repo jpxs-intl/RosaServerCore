@@ -25,17 +25,13 @@ plugin.commands["/find"] = {
 	info = "Teleport to a player.",
 	usage = "<phoneNumber/name>",
 	canCall = function(ply)
-		return ply.isAdmin
+		return isModeratorOrAdmin(ply)
 	end,
-	---@param ply Player
-	---@param man Human?
-	---@param args string[]
 	call = function(ply, man, args)
 		assert(#args >= 1, "usage")
 		assert(man, "Not spawned in")
 
 		local victim = findOnePlayer(table.remove(args, 1))
-
 		local victimMan = victim.human
 		assert(victimMan, "Victim not spawned in")
 
@@ -47,7 +43,15 @@ plugin.commands["/find"] = {
 		pos.x = pos.x + (distance * math.cos(yaw))
 		pos.z = pos.z + (distance * math.sin(yaw))
 
+		if man.vehicle ~= nil then
+			man.vehicle = nil
+		end
 		teleportHumanWithItems(man, pos)
+
+		if victimMan.vehicle ~= nil then
+			man.vehicle = victimMan.vehicle
+			man.vehicleSeat = 3
+		end
 
 		adminLog("%s found %s (%s)", ply.name, victim.name, dashPhoneNumber(victim.phoneNumber))
 	end,
@@ -57,7 +61,7 @@ plugin.commands["/fetch"] = {
 	info = "Teleport a player to you.",
 	usage = "<phoneNumber/name>",
 	canCall = function(ply)
-		return ply.isAdmin
+		return isModeratorOrAdmin(ply)
 	end,
 	---@param ply Player
 	---@param man Human?
@@ -80,6 +84,11 @@ plugin.commands["/fetch"] = {
 		pos.z = pos.z + (distance * math.sin(yaw))
 
 		teleportHumanWithItems(victimMan, pos)
+
+		if man.vehicle ~= nil then
+			victimMan.vehicle = man.vehicle
+			victimMan.vehicleSeat = 3
+		end
 
 		adminLog("%s fetched %s (%s)", ply.name, victim.name, dashPhoneNumber(victim.phoneNumber))
 	end,

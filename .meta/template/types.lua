@@ -28,6 +28,7 @@ do
 	---@field roundTeamDamage integer How much damage is done during same-team damage in round mode.
 	---@field type integer Gamemode number.
 	---@field levelToLoad string Name of the map to load on next reset.
+	---@field loadedLevel string Currently loaded level.
 	---@field isLevelLoaded boolean 🔒 Whether the level is loaded.
 	---@field isSocketEnabled boolean 🔒 Whether the server was able to bind a socket to its port.
 	---@field gravity number The gravity of the physics engine.
@@ -1000,6 +1001,20 @@ do
 end
 
 do
+	---Represents a mission for a corp.
+	---@class Mission
+	---@field isActive boolean Mission is active/existing.
+	---@field diskType ItemType? Item type for the floppy disk the mission uses.
+	---@field item Item? Item for the mission, such as the disk to retrieve.
+	---@field type integer Mission type, possible values require testing.
+	---@field team1 integer First team ID for the mission, seems to always be 0 so far.
+	---@field team2 integer Second team ID for the mission, seems to always be 0 so far.
+	---@field value integer Value of the mission, 
+	---@field location integer Location, possible values are at https://github.com/jpxs-intl/RosaServer/wiki#mission-locations.
+	---@field providedCash integer Provided cash to the corp for the mission (for buying disks).
+end
+
+do
 	---Represents a corporation building.
 	---@class Corporation
 	---@field class string 🔒 "Corporation"
@@ -1025,6 +1040,11 @@ do
 	---@field diskTypeID integer The type ID of the corporation disk.
 	---@field index integer 🔒 The index of the array in memory this is.
 	local Corporation
+
+	---Gets a mission from the corporation.
+	---@param idx integer From 0-15.
+	---@return Mission mission
+	function Corporation:getMission(idx) end
 end
 
 ---Represents a real number used in hooks whose value can be changed before its parent is called.
