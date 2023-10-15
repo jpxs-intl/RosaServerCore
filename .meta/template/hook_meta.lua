@@ -1,4 +1,14 @@
 ---@meta
+
+---@alias HookReturn 1 | 2 | nil
+---@alias HookNoOverride 1 | nil
+
+---@class ConsoleAutoCompleteData
+---@field response string If data.response is changed, the console's current buffer will be changed to that string.
+
+---@class SendConnectResponseData
+---@field message string data.message can be changed to alter the message that is sent.
+
 ---@alias hooks.AccountDeathTax fun(account: Account): HookReturn
 ---@alias hooks.AccountTicketBegin fun(identifier: integer, ticket: integer): HookReturn
 ---@alias hooks.AccountTicketFound fun(account?: Account): HookReturn
