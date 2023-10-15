@@ -282,6 +282,12 @@ function physics.garbageCollectBullets() end
 ---@param flags integer
 function physics.createBlock(blockX, blockY, blockZ, flags) end
 
+---Get the the collidable block in the level.
+---@param blockX integer
+---@param blockY integer
+---@param blockZ integer
+function physics.getBlock(blockX, blockY, blockZ) end
+
 ---Delete a collidable block in the level.
 ---@param blockX integer
 ---@param blockY integer
@@ -446,6 +452,14 @@ vehicles = {}
 ---@return Vehicle[] vehicles A list of all Vehicle objects.
 function vehicles.getAll() end
 
+---Get all vehicles that are not bots.
+---@return Vehicle[] vehicles A list of all Vehicle objects that are not bots.
+function vehicles.getNonTrafficCars() end
+
+---Get all vehicles that are bots.
+---@return Vehicle[] vehicles A list of all Vehicle objects that are bots.
+function vehicles.getTrafficCars() end
+
 ---Get the number of vehicles.
 ---@return integer count How many Vehicle objects there are.
 function vehicles.getCount() end
@@ -541,6 +555,18 @@ function trafficCars.getCount() end
 ---@param amount integer The number of cars to create.
 function trafficCars.createMany(amount) end
 
+---Library for managing corporations.
+---corporations[index: integer] -> Corporation
+corporations = {}
+
+---Get all corporations.
+---@return Corporation[] buildings A list of all corporations.
+function corporations.getAll() end
+
+---Get the number of corporations.
+---@return integer count How many corporations there are.
+function corporations.getCount() end
+
 ---Library for managing Building objects.
 ---buildings[index: integer] -> Building
 buildings = {}
@@ -602,6 +628,20 @@ function events.createSound(soundType, position, volume, pitch) end
 ---@return Event event The created event.
 function events.createSound(soundType, position) end
 
+---Play a sound from an item.
+---@param soundType integer The type of the sound.
+---@param item Item The item to play the sound from.
+---@return Event event The created event.
+function events.createSound(soundType, item) end
+
+---Play a sound.
+---@param soundType integer The type of the sound.
+---@param item Item The item to play the sound from.
+---@param volume number The volume of the sound, where 1.0 is standard.
+---@param pitch number The pitch of the sound, where 1.0 is standard.
+---@return Event event The created event.
+function events.createSound(soundType, item, volume, pitch) end
+
 ---Display a grenade explosion.
 ---@param position Vector The position to show the explosion at.
 ---@return Event event The created event.
@@ -615,7 +655,7 @@ memory = {}
 function memory.getBaseAddress() end
 
 ---Get the address of a game object.
----@param object Connection|Account|Player|Human|ItemType|Item|Vehicle|Bullet|Bone|RigidBody|Bond|Action|MenuButton|StreetLane|Street|StreetIntersection
+---@param object Connection|Account|Player|Human|ItemType|Item|Vehicle|Bullet|Bone|RigidBody|Bond|Action|MenuButton|StreetLane|Street|StreetIntersection|Building|Corporation
 ---@return integer address
 function memory.getAddress(object) end
 
@@ -729,6 +769,41 @@ function memory.writeDouble(address, value) end
 ---@param address integer
 ---@param bytes string The bytes to write.
 function memory.writeBytes(address, bytes) end
+
+---Convert a 1-byte integer value into a hexadecimal string.
+---@param value integer
+---@return string value
+function memory.toHexByte(value) end
+
+---Convert a 2-byte integer value into a hexadecimal string.
+---@param value integer
+---@return string value
+function memory.toHexShort(value) end
+
+---Convert a 4-byte integer value into a hexadecimal string.
+---@param value integer
+---@return string value
+function memory.toHexInt(value) end
+
+---Convert a 8-byte integer value into a hexadecimal string.
+---@param value integer
+---@return string value
+function memory.toHexLong(value) end
+
+---Convert a 4-byte single-precision floating point value into a hexadecimal string.
+---@param value integer
+---@return string value
+function memory.toHexFloat(value) end
+
+---Convert a 8-byte double-precision floating point value into a hexadecimal string.
+---@param value integer
+---@return string value
+function memory.toHexDouble(value) end
+
+---Converts every byte in a string of arbitrary length into a hexadecimal string.
+---@param value string
+---@return string value
+function memory.toHexString(value) end
 
 ---@class ListDirectoryEntry
 ---@field isDirectory boolean Whether the entry is a directory.

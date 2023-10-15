@@ -4,34 +4,34 @@ do
 	---@class Server
 	---@field class string 🔒 "Server"
 	---@field TPS integer 🔒 How many ticks are in 1 second according to in-game timers (60).
-	---@field port integer 🔒
+	---@field port integer 🔒 Port number the server is listening on.
 	---@field name string Name shown on the server list, max length of 31.
 	---@field adminPassword string The admin password used in the /admin command.
 	---@field password string Empty string for no password, otherwise people will need to type this to join.
-	---@field maxPlayers integer
-	---@field maxBytesPerSecond integer
+	---@field maxPlayers integer Maximum amount of players that can connect to the server.
+	---@field maxBytesPerSecond integer Maximum amount of bytes that can be networked per-second before throttling.
 	---@field worldTraffic integer How many traffic cars there should be in world mode.
-	---@field worldStartCash integer
-	---@field worldMinCash integer
-	---@field worldShowJoinExit boolean
-	---@field worldRespawnTeam boolean
-	---@field worldCrimeCivCiv integer
-	---@field worldCrimeCivTeam integer
-	---@field worldCrimeTeamCiv integer
-	---@field worldCrimeTeamTeam integer
-	---@field worldCrimeTeamTeamInBase integer
-	---@field worldCrimeNoSpawn integer
+	---@field worldStartCash integer Amount of cash players start with in world mode.
+	---@field worldMinCash integer Minimum amount of cash that players can't go below after rejoin in world mode.
+	---@field worldShowJoinExit boolean Whether to show join/exit messages in world mode.
+	---@field worldRespawnTeam boolean Whether to allow players to respawn at their team building in world mode.
+	---@field worldCrimeCivCiv integer Crime rating given for civ-civ interactions in world mode.
+	---@field worldCrimeCivTeam integer Crime rating given for civ-team interactions in world mode.
+	---@field worldCrimeTeamCiv integer Crime rating given for team-civ interactions in world mode.
+	---@field worldCrimeTeamTeam integer Crime rating given for team-team interactions in world mode.
+	---@field worldCrimeTeamTeamInBase integer Crime rating given for same team interactions in world mode.
+	---@field worldCrimeNoSpawn integer Crime rating threshold until players cannot spawn in world mode.
 	---@field roundRoundTime integer How long rounds are in round mode, in minutes.
-	---@field roundStartCash integer
-	---@field roundIsWeekly boolean
-	---@field roundHasBonusRatio boolean
-	---@field roundTeamDamage integer
+	---@field roundStartCash integer How much cash players start with in round mode.
+	---@field roundIsWeekly boolean Whether the round gamemode is in weekly mode.
+	---@field roundHasBonusRatio boolean Whether the bonus ratio is enabled in round mode.
+	---@field roundTeamDamage integer How much damage is done during same-team damage in round mode.
 	---@field type integer Gamemode number.
-	---@field loadedLevel string 🔒 Name of the currently loaded map.
-	---@field levelToLoad string
-	---@field isLevelLoaded boolean
-	---@field gravity number
-	---@field defaultGravity number 🔒
+	---@field levelToLoad string Name of the map to load on next reset.
+	---@field isLevelLoaded boolean 🔒 Whether the level is loaded.
+	---@field isSocketEnabled boolean 🔒 Whether the server was able to bind a socket to its port.
+	---@field gravity number The gravity of the physics engine.
+	---@field defaultGravity number 🔒 The default gravity of the physics engine.
 	---@field state integer Game state enum. Always networked.
 	---@field time integer Time remaining in ticks (see TPS). Always networked.
 	---@field sunTime integer Time of day in ticks, where noon is 2592000 (12*60*60*TPS). Always networked.
@@ -204,6 +204,8 @@ do
 	---@field menuTab integer What tab in the menu they are currently in.
 	---@field numActions integer
 	---@field lastNumActions integer
+	---@field numMenuButtons integer
+	---@field itemsBought integer
 	---@field gender integer 💾 0 = female, 1 = male.
 	---@field skinColor integer 💾 Starts at 0.
 	---@field hairColor integer 💾
@@ -221,6 +223,7 @@ do
 	---@field isReady boolean
 	---@field isBot boolean 💾
 	---@field isZombie boolean 💾 Whether the bot player should always run towards it's target.
+	---@field isGodMode boolean Whether the player is in godmode.
 	---@field human? Human 💾 The human they currently control.
 	---@field connection? Connection 🔒 Their network connection.
 	---@field account? Account Their account.
@@ -263,6 +266,7 @@ do
 	---@field maxStamina integer
 	---@field vehicleSeat integer Seat index of the vehicle they are in.
 	---@field despawnTime integer Ticks remaining until removal if dead.
+	---@field spawnProtection integer Ticks remaining left in protection from damage.
 	---@field movementState integer 0 = normal, 1 = in midair, 2 = sliding, rest unknown.
 	---@field zoomLevel integer 0 = run, 1 = walk, 2 = aim.
 	---@field damage integer Level of screen blackness, 0-60.
@@ -435,6 +439,8 @@ do
 	---@field grenadePrimer? Player The player who primed this grenade.
 	---@field phoneTexture integer 💾 The phone's texture ID. 0 for white, 1 for black.
 	---@field phoneNumber integer The number used to call this phone.
+	---@field callerRingTimer integer Elapsed ticks since began ringing another phone. Value between 0 and 768.
+	---@field phoneStatus integer The status of the phone. 0 for idle, 1 for phone book, 2 for calling/ringing, 3 for call in progress, 4 for busy tone, 5 for out of service
 	---@field displayPhoneNumber integer 💾 The number currently displayed on the phone.
 	---@field enteredPhoneNumber integer The number that has been entered on the phone. Will reset upon reaching 4 digits.
 	---@field connectedPhone? Item The phone that this phone is connected to.
@@ -463,6 +469,16 @@ do
 	---Explode like a grenade, whether or not it is one.
 	---Does not alter or remove the item.
 	function Item:explode() end
+
+	---Trigger a sound on the item.
+	---@param soundType integer The type of the sound.
+	---@param volume number The volume of the sound, where 1.0 is standard.
+	---@param pitch number The pitch of the sound, where 1.0 is standard.
+	function Item:sound(soundType, volume, pitch) end
+
+	---Trigger a sound on the item, with default volume and pitch.
+	---@param soundType integer The type of the sound.
+	function Item:sound(soundType) end
 
 	---Set the text displayed on this item.
 	---Visible if it is a Memo or a Newspaper item.
@@ -522,6 +538,7 @@ do
 	---@field class string 🔒 "Vehicle"
 	---@field data table A Lua table which persists throughout the lifespan of this object.
 	---@field type VehicleType 💾
+	---@field despawnTime integer Ticks remaining until removal. -1 for never.
 	---@field isLocked boolean Whether or not this has a key and is locked.
 	---@field controllableState integer 0 = cannot be controlled, 1 = car, 2 = helicopter.
 	---@field health integer 0-100
@@ -535,6 +552,7 @@ do
 	---@field gasControl number Brakes to full gas, -1 to 1.
 	---@field engineRPM integer The RPM of the engine to be networked, 0 to 8191.
 	---@field numSeats integer The number of accessible seats.
+	---@field numWheels integer The number of wheels.
 	---@field index integer 🔒 The index of the array in memory this is (0-511).
 	---@field isActive boolean Whether or not this exists, only change if you know what you are doing.
 	---@field lastDriver? Player 🔒 The last person to drive the vehicle.
@@ -566,7 +584,21 @@ do
 	---@param index integer The index between 0 and 7.
 	---@param isWindowBroken boolean
 	function Vehicle:setIsWindowBroken(index, isWindowBroken) end
+
+	---Get a wheel on the car.
+	---@param index integer The index between 0 and numWheels - 1.
+	---@return Wheel wheel The desired wheel.
+	function Vehicle:getWheel(index) end
 end
+
+---Represents a wheel on a car, train, or helicopter.
+---@class Wheel
+---@field class string 🔒 "Wheel"
+---@field visualHeight number The height of the wheel.
+---@field vehicleHeight number The height of the vehicle.
+---@field spin number The spin constant of the wheel.
+---@field skid number The skid constant of the wheel.
+---@field rigidBody RigidBody 🔒 The rigid body representing the physics of this vehicle.
 
 do
 	---Represents a rigid body currently in use by the physics engine.
@@ -967,6 +999,34 @@ do
 	function PointGraph:findShortestPath(startIndex, endIndex) end
 end
 
+do
+	---Represents a corporation building.
+	---@class Corporation
+	---@field class string 🔒 "Corporation"
+	---@field doorPos Vector The origin point of the corporation door.
+	---@field spawnLocation Vector The origin point of the corporation spawn.
+	---@field missionLocation Vector The origin point of the corporation mission.
+	---@field missionValue integer The value of the corporation mission.
+	---@field missionType integer The type of the corporation mission.
+	---@field missionItemID integer The item ID of the corporation mission.
+	---@field missionTeam1 integer The team of the corporation mission.
+	---@field missionTeam2 integer The team of the corporation mission.
+	---@field carSpawn1 Vector The origin point of the first car spawn.
+	---@field tableLocation Vector The origin point of the corporation table.
+	---@field tableOrientation RotMatrix The rotation of the corporation table.
+	---@field interiorCuboidA Vector The first corner of a cuboid, where the interior of the corporation is contained inside.
+	---@field interiorCuboidB Vector The second corner of a cuboid, where the interior of the corporation is contained inside.
+	---@field vaultCuboidA Vector The first corner of a cuboid, where the vault of the corporation is contained inside.
+	---@field vaultCuboidB Vector The second corner of a cuboid, where the vault of the corporation is contained inside.
+	---@field managerPlayerID integer The player ID of the corporation manager.
+	---@field isDoorOpen integer Whether or not the door is open.
+	---@field players integer How many players are currently inside the corporation.
+	---@field providedCash integer How much cash the corporation has provided.
+	---@field diskTypeID integer The type ID of the corporation disk.
+	---@field index integer 🔒 The index of the array in memory this is.
+	local Corporation
+end
+
 ---Represents a real number used in hooks whose value can be changed before its parent is called.
 ---@class HookFloat
 ---@field value number The underlying float value.
@@ -1029,18 +1089,24 @@ end
 ---@field primaryItem? Item 🔒 The first item in the slot, if any.
 ---@field secondaryItem? Item 🔒 The second item in the slot, if any.
 
----Represents a bond between one or two rigid bodies.
----@class Bond
----@field class string 🔒 "Bond"
----@field type integer
----@field despawnTime integer How many ticks until removal, 65536 for never.
----@field globalPos Vector
----@field localPos Vector
----@field otherLocalPos Vector
----@field index integer 🔒 The index of the array in memory this is (0-16383).
----@field isActive boolean Whether or not this exists, only change if you know what you are doing.
----@field body RigidBody The rigid body of this bond.
----@field otherBody RigidBody The second rigid body of this bond, if there is one.
+do
+	---Represents a bond between one or two rigid bodies.
+	---@class Bond
+	---@field class string 🔒 "Bond"
+	---@field type integer
+	---@field despawnTime integer How many ticks until removal, 65536 for never.
+	---@field globalPos Vector Position in global space of the rigid body in the bond.
+	---@field localPos Vector Position in local space of the rigid body in the bond.
+	---@field otherLocalPos Vector Position in local space of the other body in the bond.
+	---@field index integer 🔒 The index of the array in memory this is (0-16383).
+	---@field isActive boolean Whether or not this exists, only change if you know what you are doing.
+	---@field body RigidBody The rigid body of this bond.
+	---@field otherBody RigidBody The second rigid body of this bond, if there is one.
+	local Bond
+
+	---Remove self safely and fire a network event.
+	function Bond:remove() end
+end
 
 ---Represents a networked action sent from a player.
 ---@class Action
