@@ -99,25 +99,6 @@ plugin:addHook("Logic", function()
 	displayRoutine(os.realClock())
 end)
 
-plugin:addHook("WebUploadBody", function()
-	hiddenPlayers = {}
-
-	for _, ply in pairs(players.getNonBots()) do
-		if isHiddenModerator(ply) then
-			table.insert(hiddenPlayers, ply)
-			ply.isBot = true
-		end
-	end
-end)
-
-plugin:addHook("PostWebUploadBody", function()
-	for _, ply in pairs(hiddenPlayers) do
-		ply.isBot = false
-	end
-
-	hiddenPlayers = nil
-end)
-
 do
 	local isInsideServerReceive
 	local shouldIgnoreMessage
