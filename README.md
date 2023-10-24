@@ -1,8 +1,9 @@
-# RosaServerCore
+# RosaServerCore (jpxs)
 
 The standard implementation of RosaServer including a plugin/gamemode system.
+Vastly improved upon by the JPXS Team from the original by jdbool. Featuring enums, strongly typed `.data` capability, strongly typed hooks, and more. 
 
-Requires [RosaServer](https://github.com/RosaServer/RosaServer).
+Requires [RosaServer](https://github.com/jpxs-intl/RosaServer).
 
 # Getting Started
 
