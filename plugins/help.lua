@@ -7,8 +7,6 @@ plugin.description = "Adds the /help command."
 plugin.commands["/help"] = {
 	info = "Get some help.",
 	usage = "[page]",
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		local page = math.max(math.floor(tonumber(args[1]) or 1), 1)
 		local perPage = ply.isConsole and 10 or 4

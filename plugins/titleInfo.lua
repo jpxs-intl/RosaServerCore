@@ -94,7 +94,6 @@ end)
 
 plugin.commands["/tps"] = {
 	info = "Check the server's TPS.",
-	---@param ply Player
 	call = function(ply)
 		ply:sendMessage(
 			string.format(

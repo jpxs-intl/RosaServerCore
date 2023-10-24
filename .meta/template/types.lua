@@ -137,17 +137,32 @@ do
 	---@return RotMatrix clone The created copy.
 	function RotMatrix:clone() end
 
-	---Get a normal vector pointing in the rotation's +X direction.
+	---Use :rightUnit() instead. Get a normal vector pointing in the rotation's +X direction.
 	---@return Vector forward The normal vector.
+	---@deprecated
 	function RotMatrix:getForward() end
 
-	---Get a normal vector pointing in the rotation's +Y direction.
+	---Use :upUnit() instead. Get a normal vector pointing in the rotation's +Y direction.
 	---@return Vector up The normal vector.
+	---@deprecated
 	function RotMatrix:getUp() end
 
-	---Get a normal vector pointing in the rotation's +Z direction.
+	---Use :forwardUnit() instead. Get a normal vector pointing in the rotation's +Z direction.
 	---@return Vector right The normal vector.
+	---@deprecated
 	function RotMatrix:getRight() end
+
+	---Get a unit vector pointing in the rotation's forward (+Z) direction.
+	---@return Vector forward The unit vector.
+	function RotMatrix:forwardUnit() end
+
+	---Get a unit vector pointing in the rotation's up (+Y) direction.
+	---@return Vector up The unit vector.
+	function RotMatrix:upUnit() end
+
+	---Get a unit vector pointing in the rotation's right (+X) direction.
+	---@return Vector right The unit vector.
+	function RotMatrix:rightUnit() end
 end
 
 do
@@ -885,6 +900,71 @@ do
 end
 
 do
+	---Connection between a `TCPServer` and a client.
+	---@class TCPServerConnection
+	---@field isOpen boolean Whether the connection is still active and open,
+	---@field port integer Source port the client connected from.
+	---@field address string Source IP address the client connected from.
+	TCPServerConnection = {}
+
+	---Closes this client's connection to the `TCPServer`.
+	function TCPServerConnection:close() end
+
+	---Sends data to the client over the socket.
+	---@param data string The data to send to the client.
+	---@return integer bytesWritten How many bytes were sent to the client, or 0 if none were written.
+	function TCPServerConnection:send(data) end
+
+	---Receives data sent by the client over the socket.
+	---@return string? data Data sent by the client.
+	function TCPServerConnection:receive(size) end
+end
+
+do
+	---Basic nonblocking TCP server implementation with Unix sockets. Binds to `0.0.0.0`.
+	---@class TCPServer
+	---@field isOpen boolean Whether the TCP server is open and accepting connections.
+	TCPServer = {}
+
+	---Creates a new `TCPServer` object.
+	---@param port integer Port to bind the server to.
+	---@return TCPServer
+	function TCPServer.new(port) end
+
+	---Attempts to accept a client connection if any are available. Nonblocking.
+	---@return TCPServerConnection? connection
+	function TCPServer:accept() end
+
+	---Closes the server socket and all connections (but does not destroy the entire object).
+	function TCPServer:close() end
+end
+
+do
+	---Basic blocking TCP client implementation with Unix sockets.
+	---@class TCPClient
+	---@field isOpen boolean Whether the socket opened successfully on client creation.
+	TCPClient = {}
+
+	---Creates a new `TCPClient` object.
+	---@param address string Address of the TCP server to connect to.
+	---@param port integer Port of the TCP server to connect to.
+	---@return TCPClient
+	function TCPClient.new(address, port) end
+
+	---Sends data to the server over the socket.
+	---@param data string The data to send to the client.
+	---@return integer bytesWritten How many bytes were sent to the server, or 0 if none were written.
+	function TCPClient:send(data) end
+
+	---Receives data sent by the server over the socket.
+	---@return string? data Data sent by the server.
+	function TCPClient:receive(size) end
+
+	---Closes the client socket.
+	function TCPClient:close() end
+end
+
+do
 	---An object which can listen for file system events.
 	---Available in worker threads.
 	---@class FileWatcher
@@ -1001,15 +1081,16 @@ do
 end
 
 do
-	---Represents a mission for a corp.
+	---Represents a round mode mission for a corp.
+	---💾 To update any changes to the mission for all clients, `Corporation:updateMission(idx)` has to be called.
 	---@class Mission
 	---@field isActive boolean Mission is active/existing.
 	---@field diskType ItemType? Item type for the floppy disk the mission uses.
 	---@field item Item? Item for the mission, such as the disk to retrieve.
-	---@field type integer Mission type, possible values require testing.
-	---@field team1 integer First team ID for the mission, seems to always be 0 so far.
-	---@field team2 integer Second team ID for the mission, seems to always be 0 so far.
-	---@field value integer Value of the mission, 
+	---@field type integer Mission type, possible values are at https://github.com/jpxs-intl/RosaServer/wiki#mission-types.
+	---@field team1 integer First team ID for the mission, set for specific mission types.
+	---@field team2 integer Second team ID for the mission, only set in double disk buy mission type.
+	---@field value integer Bonus value of the mission; how much the corp will get for completing it. 
 	---@field location integer Location, possible values are at https://github.com/jpxs-intl/RosaServer/wiki#mission-locations.
 	---@field providedCash integer Provided cash to the corp for the mission (for buying disks).
 end
@@ -1020,12 +1101,6 @@ do
 	---@field class string 🔒 "Corporation"
 	---@field doorPos Vector The origin point of the corporation door.
 	---@field spawnLocation Vector The origin point of the corporation spawn.
-	---@field missionLocation Vector The origin point of the corporation mission.
-	---@field missionValue integer The value of the corporation mission.
-	---@field missionType integer The type of the corporation mission.
-	---@field missionItemID integer The item ID of the corporation mission.
-	---@field missionTeam1 integer The team of the corporation mission.
-	---@field missionTeam2 integer The team of the corporation mission.
 	---@field carSpawn1 Vector The origin point of the first car spawn.
 	---@field tableLocation Vector The origin point of the corporation table.
 	---@field tableOrientation RotMatrix The rotation of the corporation table.
@@ -1036,8 +1111,6 @@ do
 	---@field managerPlayerID integer The player ID of the corporation manager.
 	---@field isDoorOpen integer Whether or not the door is open.
 	---@field players integer How many players are currently inside the corporation.
-	---@field providedCash integer How much cash the corporation has provided.
-	---@field diskTypeID integer The type ID of the corporation disk.
 	---@field index integer 🔒 The index of the array in memory this is.
 	local Corporation
 
@@ -1045,6 +1118,10 @@ do
 	---@param idx integer From 0-15.
 	---@return Mission mission
 	function Corporation:getMission(idx) end
+
+	---Networks changes to a mission to all clients.
+	---@param idx integer From 0-15.
+	function Corporation:updateMission(idx) end
 end
 
 ---Represents a real number used in hooks whose value can be changed before its parent is called.

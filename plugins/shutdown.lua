@@ -37,7 +37,6 @@ plugin.commands["/shutdown"] = {
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
-	---@param args string[]
 	autoComplete = function(args)
 		if #args < 1 then
 			return
@@ -47,8 +46,6 @@ plugin.commands["/shutdown"] = {
 			args[1] = "now"
 		end
 	end,
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		assert(#args >= 1, "usage")
 

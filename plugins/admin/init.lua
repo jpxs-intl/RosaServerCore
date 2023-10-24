@@ -44,7 +44,6 @@ plugin.commands["/resetlua"] = {
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
-	---@param ply Player
 	call = function(ply)
 		flagStateForReset(hook.persistentMode)
 		adminLog("%s reset the Lua state", ply.name)
@@ -68,8 +67,6 @@ plugin.commands["/mode"] = {
 			args[1] = foundName
 		end
 	end,
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		assert(#args >= 1, "usage")
 
@@ -101,7 +98,6 @@ plugin.commands["/resetgame"] = {
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
-	---@param ply Player
 	call = function(ply)
 		-- If we reset in the middle of chat messages being parsed, things will break
 		hook.once("Logic", function()

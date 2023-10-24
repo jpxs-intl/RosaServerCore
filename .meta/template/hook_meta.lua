@@ -11,7 +11,7 @@
 
 ---@alias hooks.AccountDeathTax fun(account: Account): HookReturn
 ---@alias hooks.AccountTicketBegin fun(identifier: integer, ticket: integer): HookReturn
----@alias hooks.AccountTicketFound fun(account?: Account): HookReturn
+---@alias hooks.AccountTicketFound fun(account: Account|nil): HookReturn
 ---@alias hooks.AccountsSave fun(): HookReturn
 ---@alias hooks.AreaCreateBlock fun(blockX: integer, blockY: integer, blockZ: integer, flags: integer): HookReturn
 ---@alias hooks.AreaDeleteBlock fun(blockX: integer, blockY: integer, blockZ: integer): HookReturn
@@ -43,7 +43,7 @@
 ---@alias hooks.ItemComputerInput fun(computer: Item, character: integer): HookReturn
 ---@alias hooks.ItemCreate fun(type: ItemType, position: Vector, rotation: RotMatrix): HookReturn
 ---@alias hooks.ItemDelete fun(item: Item): HookReturn
----@alias hooks.ItemLink fun(item: Item, childItem?: Item, parentHuman?: Human, slot: integer): HookReturn
+---@alias hooks.ItemLink fun(item: Item, childItem: Item|nil, parentHuman: Human|nil, slot: integer): HookReturn
 ---@alias hooks.LineIntersectHuman fun(human: Human, posA: Vector, posB: Vector): HookReturn
 ---@alias hooks.LogicCoop fun(): HookReturn
 ---@alias hooks.LogicRace fun(): HookReturn
@@ -64,7 +64,7 @@
 ---@alias hooks.PlayerDelete fun(player: Player): HookReturn
 ---@alias hooks.PlayerGiveWantedLevel fun(player: Player, victim: Player, basePoints: HookInteger): HookReturn
 ---@alias hooks.PostAccountDeathTax fun(account: Account): HookNoOverride
----@alias hooks.PostAccountTicket fun(account?: Account): HookNoOverride
+---@alias hooks.PostAccountTicket fun(account: Account|nil): HookNoOverride
 ---@alias hooks.PostAccountsSave fun(): HookNoOverride
 ---@alias hooks.PostAreaCreateBlock fun(blockX: integer, blockY: integer, blockZ: integer, flags: integer): HookNoOverride
 ---@alias hooks.PostAreaDeleteBlock fun(blockX: integer, blockY: integer, blockZ: integer): HookNoOverride
@@ -89,7 +89,7 @@
 ---@alias hooks.PostItemComputerInput fun(computer: Item, character: integer): HookNoOverride
 ---@alias hooks.PostItemCreate fun(item: Item): HookNoOverride
 ---@alias hooks.PostItemDelete fun(item: Item): HookNoOverride
----@alias hooks.PostItemLink fun(item: Item, childItem?: Item, parentHuman?: Human, slot: integer, worked: boolean): HookNoOverride
+---@alias hooks.PostItemLink fun(item: Item, childItem: Item|nil, parentHuman: Human|nil, slot: integer, worked: boolean): HookNoOverride
 ---@alias hooks.PostLevelCreate fun(): HookNoOverride
 ---@alias hooks.PostLineIntersectHuman fun(human: Human, posA: Vector, posB: Vector): HookNoOverride
 ---@alias hooks.PostLogicCoop fun(): HookNoOverride

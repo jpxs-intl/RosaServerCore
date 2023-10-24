@@ -370,7 +370,7 @@ end
 
 ---Check whether someone is allowed to run a command.
 ---@param name string The name of the command.
----@param command table The command table.
+---@param command Command The command table.
 ---@param plyOrArgs Player|table The calling player, or a table of arguments if it is a console command.
 ---@return boolean canCall Whether the command can be called given the conditions.
 function hook.canCallCommand(name, command, plyOrArgs)
@@ -379,13 +379,14 @@ function hook.canCallCommand(name, command, plyOrArgs)
 		return type(plyOrArgs) == "table"
 	else
 		if command.canCall then
-			return not not command.canCall(plyOrArgs)
+			return command.canCall(plyOrArgs)
 		else
 			return true
 		end
 	end
 end
 
+---@param command Command
 local function callCommand(name, command, plyOrArgs, ...)
 	if not hook.canCallCommand(name, command, plyOrArgs) then
 		error("Access denied")

@@ -10,28 +10,28 @@ RESET_REASON_LUARESET = 2
 ---Indicates a call from Server:reset.
 RESET_REASON_LUACALL = 3
 
----In round-based modes, the player list screen is shown in this state to those who aren't spawned in.
+---In round-based modes, the player list screen is shown in this state to those who aren't spawned in. Prefer an enum library.
 STATE_PREGAME = 1
----Game is ongoing. In round-based modes, players not spawned in will spectate. World players can spawn as they please.
+---Game is ongoing. In round-based modes, players not spawned in will spectate. World players can spawn as they please. Prefer an enum library.
 STATE_GAME = 2
----Used in round-based modes when the game is over and the player list is shown before reset.
+---Used in round-based modes when the game is over and the player list is shown before reset. Prefer an enum library.
 STATE_RESTARTING = 3
 
----Driving mode.
+---Driving mode. Prefer an enum library.
 ---@deprecated
 TYPE_DRIVING = 1
----Racing mode.
+---Racing mode. Prefer an enum library.
 ---@deprecated
 TYPE_RACE = 2
----Round mode.
+---Round mode. Prefer an enum library.
 TYPE_ROUND = 3
----World mode.
+---World mode. Prefer an enum library.
 TYPE_WORLD = 4
----Eliminator mode.
+---Eliminator mode. Prefer an enum library.
 TYPE_TERMINATOR = 5
----Co-op mode.
+---Co-op mode. Prefer an enum library.
 TYPE_COOP = 6
----Versus mode.
+---Versus mode. Prefer an enum library.
 TYPE_VERSUS = 7
 
 ---File was accessed.
@@ -132,6 +132,11 @@ function Vector(x, y, z) end
 ---@param z3 number
 ---@return RotMatrix rotMatrix The created rotation matrix.
 function RotMatrix(x1, y1, z1, x2, y2, z2, x3, y3, z3) end
+
+---Create an empty RotMatrix with 0 for every component.
+---Available in worker threads.
+---@return RotMatrix rotMatrix The created rotation matrix.
+function RotMatrix() end
 
 ---Library for sending HTTP(S) requests.
 http = {}

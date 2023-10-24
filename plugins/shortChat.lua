@@ -251,8 +251,6 @@ end
 
 plugin:addHook(
 	"PlayerChat",
-	---@param ply Player
-	---@param message string
 	function(ply, message)
 		local width = getRockwellWidth(message)
 		if width > plugin.config.maxPixelWidth then

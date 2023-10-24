@@ -69,7 +69,6 @@ end
 
 mode:addHook(
 	"PlayerActions",
-	---@param ply Player
 	function(ply)
 		if not ply.human and mode.config.autoSpawn then
 			clickedEnterCity(ply)
@@ -90,7 +89,6 @@ mode.commands["/map"] = {
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
-	---@param args string[]
 	call = function(_, _, args)
 		assert(#args >= 1, "usage")
 

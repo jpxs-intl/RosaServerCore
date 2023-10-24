@@ -6,6 +6,8 @@ require("main.hook")
 require("main.gameUtil")
 require("main.plugins")
 require("main.http")
+require("main.enum")
+require("main.dataTyper")
 
 local yaml = require("main.yaml")
 

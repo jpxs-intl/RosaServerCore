@@ -45,7 +45,6 @@ end
 
 plugin:addHook(
 	"PostPlayerCreate",
-	---@param ply Player
 	function(ply)
 		awaitConnected[ply.index] = true
 		visibleModerators[ply.index] = nil
@@ -54,7 +53,6 @@ plugin:addHook(
 
 plugin:addHook(
 	"PostPlayerDelete",
-	---@param ply Player
 	function(ply)
 		awaitConnected[ply.index] = nil
 		visibleModerators[ply.index] = nil
@@ -131,7 +129,6 @@ do
 
 	plugin:addHook(
 		"EventUpdatePlayer",
-		---@param ply Player
 		function(ply)
 			if not ply.isBot and isHiddenModerator(ply) then
 				hidingAsBot = true
@@ -142,7 +139,6 @@ do
 
 	plugin:addHook(
 		"PostEventUpdatePlayer",
-		---@param ply Player
 		function(ply)
 			if hidingAsBot then
 				hidingAsBot = nil
@@ -157,7 +153,6 @@ do
 
 	plugin:addHook(
 		"EventMessage",
-		---@param message string
 		function(_, message)
 			if shouldIgnoreMessage then
 				shouldIgnoreMessage = nil
@@ -180,8 +175,6 @@ plugin.commands["/mod"] = {
 		return ply.isConsole or ply.isAdmin
 	end,
 	autoComplete = shared.autoCompleteAccountFirstArg,
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		assert(#args >= 1, "usage")
 
@@ -227,8 +220,6 @@ plugin.commands["/unmod"] = {
 		return ply.isConsole or ply.isAdmin
 	end,
 	autoComplete = shared.autoCompleteAccountFirstArg,
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		assert(#args >= 1, "usage")
 
@@ -270,7 +261,6 @@ plugin.commands["/unmod"] = {
 plugin.commands["/leave"] = {
 	info = "Pretend to leave.",
 	canCall = isModeratorOrAdmin,
-	---@param ply Player
 	call = function(ply)
 		if not visibleModerators[ply.index] then
 			error("Already left")
@@ -289,7 +279,6 @@ plugin.commands["/leave"] = {
 plugin.commands["/join"] = {
 	info = "Pretend to join.",
 	canCall = isModeratorOrAdmin,
-	---@param ply Player
 	call = function(ply)
 		if visibleModerators[ply.index] then
 			error("Already joined")

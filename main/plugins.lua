@@ -62,8 +62,8 @@ end
 ---@field usage string? How to use the command.
 ---@field alias string[]? Aliases of the command.
 ---@field canCall (fun(player: Player): boolean)? Function which checks whether a player can call this command.
+---@field call fun(player: Player, human: Human|nil, args: string[]) Calls the command. Human can be nil.
 ---@field autoComplete fun(args: string[])? Function which manipulates arguments when pressing tab in the terminal.
----@field call fun(player: Player, human?: Human, args: string[]) Calls the command.
 ---@field cooldownTime number? How many seconds a player has to wait before using the command again.
 
 ---@class PluginHookInfo
@@ -292,10 +292,10 @@ function plugin:require(modName)
 	if not self.requireCache[modName] then
 		local fileName = self.nameSpace .. "/" .. self.fileName .. "/" .. modName .. ".lua"
 		local loadedFile = assert(loadfile(fileName))
-		self.requireCache[modName] = loadedFile(self)
+		self.requireCache[modName] = {loadedFile(self)}
 	end
 
-	return self.requireCache[modName]
+	return unpack(self.requireCache[modName])
 end
 
 ---@class PluginHookOptions

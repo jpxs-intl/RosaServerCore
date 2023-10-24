@@ -114,8 +114,6 @@ plugin.commands["/whitelist"] = {
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		assert(#args >= 1, "usage")
 
@@ -142,8 +140,6 @@ plugin.commands["/unwhitelist"] = {
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		assert(#args >= 1, "usage")
 

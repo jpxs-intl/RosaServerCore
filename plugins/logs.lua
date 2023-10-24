@@ -69,7 +69,6 @@ do
 
 	plugin:addHook(
 		"PostPlayerCreate",
-		---@param ply Player
 		function(ply)
 			awaitConnected[ply.index] = true
 		end
@@ -77,7 +76,6 @@ do
 
 	plugin:addHook(
 		"PostPlayerDelete",
-		---@param ply Player
 		function(ply)
 			awaitConnected[ply.index] = nil
 			if not ply.isBot then
@@ -145,10 +143,6 @@ do
 
 	plugin:addHook(
 		"EventMessage",
-		---@param type integer
-		---@param message string
-		---@param speakerId integer
-		---@param distance integer
 		function(type, message, speakerId, distance)
 			if speakerId == -1 then
 				return

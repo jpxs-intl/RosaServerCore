@@ -83,11 +83,9 @@ end
 plugin.commands["/where"] = {
 	info = "Locate a player.",
 	usage = "<phoneNumber/name>",
-	---@param ply Player
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
-	---@param args string[]
 	autoComplete = function(args)
 		if #args < 1 then
 			return
@@ -98,8 +96,6 @@ plugin.commands["/where"] = {
 			args[1] = result
 		end
 	end,
-	---@param ply Player
-	---@param args string[]
 	call = function(ply, _, args)
 		assert(#args >= 1, "usage")
 
@@ -115,6 +111,7 @@ plugin.commands["/where"] = {
 			else
 				local closestIntersection, squareDistance = getClosestIntersection(victimMan.pos)
 				assert(closestIntersection, "There are no street intersections to refer to")
+				assert(squareDistance, "This shouldn't happen")
 
 				context = handleNearIntersection(closestIntersection, math.sqrt(squareDistance))
 			end
