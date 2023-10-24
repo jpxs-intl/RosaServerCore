@@ -1,7 +1,6 @@
 *
 !/admin/*.lua
 !/banMessages.lua
-!/boards.lua
 !/consoleCommands.lua
 !/help.lua
 !/logs.lua
