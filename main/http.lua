@@ -39,7 +39,7 @@ end
 ---@param headers table<string, string>
 ---@param body? string
 ---@param contentType? string
----@param callback fun(response?: HTTPResponse)
+---@param callback fun(response: HTTPResponse|nil)
 local function request(method, scheme, path, headers, body, contentType, callback)
 	local callbackIndex = getFreeCallbackIndex()
 	callbacks[callbackIndex] = callback
@@ -91,7 +91,7 @@ end
 ---@param scheme string The hostname of the server to send the request to, with optional protocol and port. Ex. google.com, https://google.com, https://google.com:443
 ---@param path string The path to request from the server.
 ---@param headers table<string, string> The table of request headers.
----@param callback fun(response?: HTTPResponse) The function to be called when the response is received or there was an error.
+---@param callback fun(response: HTTPResponse|nil) The function to be called when the response is received or there was an error.
 function http.get(scheme, path, headers, callback)
 	request("GET", scheme, path, headers, nil, nil, callback)
 end
@@ -102,7 +102,7 @@ end
 ---@param headers table<string, string> The table of request headers.
 ---@param body string The request body.
 ---@param contentType string The request body MIME type.
----@param callback fun(response?: HTTPResponse) The function to be called when the response is received or there was an error.
+---@param callback fun(response: HTTPResponse|nil) The function to be called when the response is received or there was an error.
 function http.post(scheme, path, headers, body, contentType, callback)
 	request("POST", scheme, path, headers, body, contentType, callback)
 end
