@@ -456,7 +456,7 @@ do
 	---@field phoneTexture integer 💾 The phone's texture ID. 0 for white, 1 for black.
 	---@field phoneNumber integer The number used to call this phone.
 	---@field callerRingTimer integer Elapsed ticks since began ringing another phone. Value between 0 and 768.
-	---@field phoneStatus integer The status of the phone. 0 for idle, 1 for phone book, 2 for calling/ringing, 3 for call in progress, 4 for busy tone, 5 for out of service
+	---@field phoneStatus integer 💾 The status of the phone. 0 for idle, 1 for phone book, 2 for calling/ringing, 3 for call in progress, 4 for busy tone, 5 for out of service
 	---@field displayPhoneNumber integer 💾 The number currently displayed on the phone.
 	---@field enteredPhoneNumber integer The number that has been entered on the phone. Will reset upon reaching 4 digits.
 	---@field connectedPhone? Item The phone that this phone is connected to.
