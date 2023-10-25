@@ -428,7 +428,7 @@ do
 	---@class Item
 	---@field class string 🔒 "Item"
 	---@field data table A Lua table which persists throughout the lifespan of this object.
-	---@field type ItemType 💾
+	---@field type ItemType
 	---@field despawnTime integer Ticks remaining until removal.
 	---@field parentSlot integer The slot this item occupies if it has a parent.
 	---@field parentHuman? Human The human this item is mounted to, if any.
