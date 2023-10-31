@@ -39,6 +39,7 @@ do
 	---@field version string 🔒 Game build, ex. "36a"
 	---@field versionMajor integer 🔒 Major version number, ex. 36
 	---@field versionMinor integer 🔒 Minor version number, ex. 1
+	---@field roundNumber integer Amount of game resets since server was started.
 	local Server
 
 	---Reset the game with reason RESET_REASON_LUACALL.
