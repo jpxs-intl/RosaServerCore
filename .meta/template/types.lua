@@ -286,6 +286,7 @@ do
 	---@field spawnProtection integer Ticks remaining left in protection from damage.
 	---@field movementState integer 0 = normal, 1 = in midair, 2 = sliding, rest unknown.
 	---@field zoomLevel integer 0 = run, 1 = walk, 2 = aim.
+	---@field throwPitch number Current pitch of item being thrown (while holding Q).
 	---@field damage integer Level of screen blackness, 0-60.
 	---@field pos Vector Position.
 	---@field viewYaw number Radians.

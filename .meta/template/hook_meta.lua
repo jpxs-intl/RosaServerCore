@@ -110,6 +110,7 @@
 ---@alias hooks.PostPlayerDeathTax fun(player: Player): HookNoOverride
 ---@alias hooks.PostPlayerDelete fun(player: Player): HookNoOverride
 ---@alias hooks.PostPlayerGiveWantedLevel fun(player: Player, victim: Player, basePoints: integer): HookNoOverride
+---@alias hooks.PostPacketReceive fun(): HookNoOverride
 ---@alias hooks.PostResetGame fun(reason: integer): HookNoOverride
 ---@alias hooks.PostSendConnectResponse fun(address: string, port: integer, data: SendConnectResponseData): HookNoOverride
 ---@alias hooks.PostSendPacket fun(address: string, port: integer, packetType: integer, packetSize: integer): HookNoOverride
@@ -121,6 +122,7 @@
 ---@alias hooks.PostVehicleCreate fun(vehicle: Vehicle): HookNoOverride
 ---@alias hooks.PostVehicleDamage fun(vehicle: Vehicle, damage: integer): HookNoOverride
 ---@alias hooks.PostVehicleDelete fun(vehicle: Vehicle): HookNoOverride
+---@alias hooks.PacketReceive fun(): HookReturn
 ---@alias hooks.ResetGame fun(reason: integer): HookReturn
 ---@alias hooks.SendConnectResponse fun(address: string, port: integer, data: SendConnectResponseData): HookReturn
 ---@alias hooks.SendPacket fun(address: string, port: integer, packetType: integer, packetSize: integer): HookReturn
