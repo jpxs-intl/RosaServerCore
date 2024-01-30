@@ -26,6 +26,7 @@ do
 	---@field roundIsWeekly boolean Whether the round gamemode is in weekly mode.
 	---@field roundHasBonusRatio boolean Whether the bonus ratio is enabled in round mode.
 	---@field roundTeamDamage integer How much damage is done during same-team damage in round mode.
+	---@field roundWeekDay integer Current day of the week in round mode.
 	---@field type integer Gamemode number.
 	---@field levelToLoad string Name of the map to load on next reset.
 	---@field loadedLevel string Currently loaded level.
@@ -209,11 +210,12 @@ do
 	---@field leftRightInput number Left to right movement input, -1 to 1.
 	---@field gearY number Forward to back stick shift position, -1 to 1.
 	---@field forwardBackInput number Backward to forward movement input, -1 to 1.
-	---@field viewYawDelta number Radians.
 	---@field viewPitch number Radians.
+	---@field viewPitchDelta number Radians.
 	---@field freeLookYaw number Radians.
 	---@field freeLookPitch number Radians.
 	---@field viewYaw number Radians.
+	---@field viewYawDelta number Radians.
 	---@field inputFlags integer Bitflags of current buttons being pressed.
 	---@field lastInputFlags integer Input flags from the last tick.
 	---@field zoomLevel integer 0 = run, 1 = walk, 2 = aim.
@@ -439,6 +441,7 @@ do
 	---@field vel Vector Velocity.
 	---@field rot RotMatrix Rotation.
 	---@field bullets integer How many bullets are inside this item.
+	---@field numChildItems integer How many child/sub-items are linked to this item.
 	---@field cooldown integer
 	---@field cashSpread integer
 	---@field cashAmount integer
@@ -452,6 +455,7 @@ do
 	---@field physicsSettled boolean Whether this item is settled by gravity.
 	---@field physicsSettledTimer integer How many ticks the item has been settling. Once it has reached 60, it will be settled.
 	---@field isStatic boolean Whether the item is immovable.
+	---@field isInPocket boolean Whether the item is being held in hand or in inventory.
 	---@field rigidBody RigidBody The rigid body representing the physics of this item.
 	---@field vehicle? Vehicle The vehicle which this item is a key for.
 	---@field grenadePrimer? Player The player who primed this grenade.
@@ -467,6 +471,10 @@ do
 	---Remove self safely and fire a network event.
 	function Item:remove() end
 
+	---Fire a network event containing basic info.
+	---@return Event event The created event.
+	function Item:update() end
+
 	---Mount another item onto this item.
 	---Ex. a magazine to this gun.
 	---@param childItem Item The child item to mount to this item.
@@ -477,6 +485,11 @@ do
 	---Remove this item from any parent, back into the world.
 	---@return boolean success Whether the unmount was successful.
 	function Item:unmount() end
+
+	---Get one of the item's children. Max is numChildItems. Example: magazine in gun.
+	---@param index integer Which child item to fetch. Zero-indexed.
+	---@return Item childItem The fetched child item.
+	function Item:getChildItem(index) end
 
 	---Speak a message.
 	---The item does not need to be a phone type.
@@ -562,6 +575,7 @@ do
 	---@field health integer 0-100
 	---@field color integer 💾 0 = black, 1 = red, 2 = blue, 3 = silver, 4 = white, 5 = gold.
 	---@field pos Vector Position.
+	---@field pos2 Vector Secondary position value. Unknown effects.
 	---@field vel Vector Velocity.
 	---@field rot RotMatrix Rotation.
 	---@field gearX number Left to right stick shift position, 0 to 2.
@@ -625,6 +639,7 @@ do
 	---@field data table A Lua table which persists throughout the lifespan of this object.
 	---@field type integer 0 = bone, 1 = car body, 2 = wheel, 3 = item.
 	---@field mass number In kilograms, kind of.
+	---@field unk0 integer Unknown value. Only mess with this if you know what you're doing!
 	---@field pos Vector Position.
 	---@field vel Vector Velocity.
 	---@field rot RotMatrix Rotation.
@@ -1159,6 +1174,7 @@ end
 ---@field class string 🔒 "VehicleType"
 ---@field usesExternalModel boolean
 ---@field controllableState integer 0 = cannot be controlled, 1 = car, 2 = helicopter.
+---@field numWheels integer How many wheels this vehicle will have.
 ---@field index integer 🔒 The index of the array in memory this is.
 ---@field name string Not networked.
 ---@field price integer How much money is taken when bought.
@@ -1185,6 +1201,7 @@ end
 
 ---@class InventorySlot
 ---@field class string 🔒 "InventorySlot"
+---@field count? integer Amount of items in the slot.
 ---@field primaryItem? Item 🔒 The first item in the slot, if any.
 ---@field secondaryItem? Item 🔒 The second item in the slot, if any.
 
