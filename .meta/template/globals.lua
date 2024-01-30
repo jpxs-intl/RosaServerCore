@@ -299,6 +299,13 @@ function physics.getBlock(blockX, blockY, blockZ) end
 ---@param blockZ integer
 function physics.deleteBlock(blockX, blockY, blockZ) end
 
+---Generates the world-mode map train tracks and racetrack. Mainly hitboxes.
+---Will not generate the racetrack if level is not named `test2`.
+function physics.levelGenerateTrainRaceTrack() end
+
+---Generates the world-mode map racetrack, even if the level is not named `test2`. Mainly hitboxes.
+function physics.levelGenerateRaceTrack() end
+
 ---Library for sending chat messages.
 chat = {}
 
