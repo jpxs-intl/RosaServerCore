@@ -13,7 +13,7 @@
 ---@alias hooks.AccountTicketBegin fun(identifier: integer, ticket: integer): HookReturn
 ---@alias hooks.AccountTicketFound fun(account: Account|nil): HookReturn
 ---@alias hooks.AccountsSave fun(): HookReturn
----@alias hooks.AreaCreateBlock fun(blockX: integer, blockY: integer, blockZ: integer, flags: integer): HookReturn
+---@alias hooks.AreaCreateBlock fun(blockX: integer, blockY: integer, blockZ: integer, flags: HookUnsignedInteger): HookReturn
 ---@alias hooks.AreaDeleteBlock fun(blockX: integer, blockY: integer, blockZ: integer): HookReturn
 ---@alias hooks.BulletCreate fun(type: integer, position: Vector, velocity: Vector, player: Player): HookReturn
 ---@alias hooks.BulletHitHuman fun(human: Human, bullet: Bullet): HookReturn
@@ -29,6 +29,7 @@
 ---@alias hooks.EventBulletHit fun(hitType: integer, position: Vector, normal: Vector): HookReturn
 ---@alias hooks.EventMessage fun(speakerType: integer, message: string, speakerID: integer, volumeLevel: integer): HookReturn
 ---@alias hooks.EventSound fun(soundType: integer, position: Vector, volume: HookFloat, pitch: HookFloat): HookReturn
+---@alias hooks.EventSoundItem fun(soundType: HookInteger, item: Item, volume: HookFloat, pitch: HookFloat): HookReturn
 ---@alias hooks.EventUpdateItemInfo fun(item: Item): HookReturn
 ---@alias hooks.EventUpdatePlayerFinance fun(player: Player): HookReturn
 ---@alias hooks.EventUpdatePlayer fun(player: Player): HookReturn
@@ -75,6 +76,7 @@
 ---@alias hooks.PostEventBulletHit fun(hitType: integer, position: Vector, normal: Vector): HookNoOverride
 ---@alias hooks.PostEventMessage fun(speakerType: integer, message: string, speakerID: integer, volumeLevel: integer): HookNoOverride
 ---@alias hooks.PostEventSound fun(soundType: integer, position: Vector, volume: number, pitch: number): HookNoOverride
+---@alias hooks.PostEventSoundItem fun(soundType: integer, item: Item, volume: number, pitch: number): HookNoOverride
 ---@alias hooks.PostEventUpdateItemInfo fun(item: Item): HookNoOverride
 ---@alias hooks.PostEventUpdatePlayerFinance fun(player: Player): HookNoOverride
 ---@alias hooks.PostEventUpdatePlayer fun(player: Player): HookNoOverride
@@ -116,8 +118,8 @@
 ---@alias hooks.PostSendPacket fun(address: string, port: integer, packetType: integer, packetSize: integer): HookNoOverride
 ---@alias hooks.PostServerReceive fun(): HookNoOverride
 ---@alias hooks.PostServerSend fun(): HookNoOverride
----@alias hooks.PostTrafficCarAI fun(): HookNoOverride
----@alias hooks.PostTrafficCarDestination fun(): HookNoOverride
+---@alias hooks.PostTrafficCarAI fun(trafficCar: TrafficCar): HookNoOverride
+---@alias hooks.PostTrafficCarDestination fun(trafficCar: TrafficCar, a: integer, b: integer, c: integer, d: integer): HookNoOverride
 ---@alias hooks.PostTrafficSimulation fun(): HookNoOverride
 ---@alias hooks.PostVehicleCreate fun(vehicle: Vehicle): HookNoOverride
 ---@alias hooks.PostVehicleDamage fun(vehicle: Vehicle, damage: integer): HookNoOverride
