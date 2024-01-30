@@ -27,6 +27,7 @@ do
 	---@field roundHasBonusRatio boolean Whether the bonus ratio is enabled in round mode.
 	---@field roundTeamDamage integer How much damage is done during same-team damage in round mode.
 	---@field roundWeekDay integer Current day of the week in round mode.
+	---@field ticksSinceReset integer Ticks since last call of `Server:reset()`.
 	---@field type integer Gamemode number.
 	---@field levelToLoad string Name of the map to load on next reset.
 	---@field loadedLevel string Currently loaded level.
@@ -442,6 +443,7 @@ do
 	---@field rot RotMatrix Rotation.
 	---@field bullets integer How many bullets are inside this item.
 	---@field numChildItems integer How many child/sub-items are linked to this item.
+	---@field memoText string Only valid if item type is a memo; holds the 1024 character memo string.
 	---@field cooldown integer
 	---@field cashSpread integer
 	---@field cashAmount integer
@@ -513,7 +515,9 @@ do
 
 	---Set the text displayed on this item.
 	---Visible if it is a Memo or a Newspaper item.
+	---Use `item.memoText` field instead.
 	---@param memo string The memo to set. Max 1023 characters.
+	---@deprecated
 	function Item:setMemo(memo) end
 
 	---Update the color and text of a line and network it.
