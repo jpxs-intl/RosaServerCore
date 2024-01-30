@@ -1201,7 +1201,7 @@ end
 
 ---@class InventorySlot
 ---@field class string 🔒 "InventorySlot"
----@field count? integer Amount of items in the slot.
+---@field count integer Amount of items in the slot.
 ---@field primaryItem? Item 🔒 The first item in the slot, if any.
 ---@field secondaryItem? Item 🔒 The second item in the slot, if any.
 
