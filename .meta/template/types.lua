@@ -731,6 +731,7 @@ do
 	---@field timeoutTime integer How many ticks the connection has not responded, will be deleted after 30 seconds.
 	---@field address string 🔒 IPv4 address ("x.x.x.x")
 	---@field adminVisible boolean Whether this connection is sent admin only events (admin messages).
+	---@field cameraPos Vector 🔒 The current camera position of the client.
 	---@field player? Player The connected player.
 	---@field spectatingHuman? Human The human this connection is currently spectating, if any.
 	local Connection
