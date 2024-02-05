@@ -27,6 +27,7 @@
 ---@alias hooks.EconomyCarMarket fun(): HookReturn
 ---@alias hooks.EventBullet fun(type: integer, position: Vector, velocity: Vector, item: Item): HookReturn
 ---@alias hooks.EventBulletHit fun(hitType: integer, position: Vector, normal: Vector): HookReturn
+---@alias hooks.EventUpdateElimState fun(player: Player, trackerVisible: HookInteger, team: HookInteger, victim: Player, victimPos: Vector|nil): HookReturn
 ---@alias hooks.EventMessage fun(speakerType: integer, message: string, speakerID: integer, volumeLevel: integer): HookReturn
 ---@alias hooks.EventSound fun(soundType: integer, position: Vector, volume: HookFloat, pitch: HookFloat): HookReturn
 ---@alias hooks.EventSoundItem fun(soundType: HookInteger, item: Item, volume: HookFloat, pitch: HookFloat): HookReturn
@@ -74,6 +75,7 @@
 ---@alias hooks.PostEconomyCarMarket fun(): HookNoOverride
 ---@alias hooks.PostEventBullet fun(type: integer, position: Vector, velocity: Vector, item: Item): HookNoOverride
 ---@alias hooks.PostEventBulletHit fun(hitType: integer, position: Vector, normal: Vector): HookNoOverride
+---@alias hooks.PostEventUpdateElimState fun(player: Player, trackerVisible: integer, team: integer, victim: Player, victimPos: Vector|nil): HookNoOverride
 ---@alias hooks.PostEventMessage fun(speakerType: integer, message: string, speakerID: integer, volumeLevel: integer): HookNoOverride
 ---@alias hooks.PostEventSound fun(soundType: integer, position: Vector, volume: number, pitch: number): HookNoOverride
 ---@alias hooks.PostEventSoundItem fun(soundType: integer, item: Item, volume: number, pitch: number): HookNoOverride
