@@ -271,9 +271,9 @@ do
 
 	---Fire a network event containing info used for the eliminator gamemode.
 	---@param trackerVisible integer Whether the tracker (wallhack) should be visible to the client. 1 = visible, 0 = not visible.
-	---@param team integer Whether the player is an eliminator or protector. 1 = eliminator, 2 = protector.
-	---@param savior Player The savior to be targetted by the elim/protector.
-	---@param saviorPos? Vector The position of the savior to be used by the tracker. Only used if tracker is visible.
+	---@param team integer Whether the player is an eliminator or protector. 1 = eliminator, 2 = protector. Only networks if trackerVisible is 0.
+	---@param savior Player The savior to be targetted by the elim/protector. Only networks if trackerVisible is 0.
+	---@param saviorPos? Vector The position of the savior to be used by the tracker. Only used for the protector's C menu.
 	---@return Event event The created event.
 	function Player:updateElimState(trackerVisible, team, savior, saviorPos) end
 
