@@ -20,7 +20,7 @@ local allowlistedPhoneNumbers
 
 local function getAllowlistIndex(phoneNumber)
 	assert(allowlistedPhoneNumbers)
-	for i, p in ipairs(allowlistedPhoneNumbers) do
+	for i, p in pairs(allowlistedPhoneNumbers) do
 		if p == phoneNumber then
 			return i
 		end
@@ -43,11 +43,12 @@ function isNumberAllowlisted(phoneNumber)
 	if hook.run("AllowlistCheck", phoneNumber, data) then
 		return false
 	end
+	if hook.run("WhitelistCheck", phoneNumber, data) then
+		return false
+	end
 
 	return not not data.allowlisted
 end
-
-local isNumberAllowlisted = isNumberAllowlisted
 
 local function saveAllowlist()
 	assert(allowlistedPhoneNumbers)
@@ -74,11 +75,11 @@ plugin:addEnableHandler(function()
 
 	local legF = io.open(legacyPath, "r")
 	if legF then
-		for _, v in pairs(json.decode(legF:read("*a"))) do
-			table.insert(allowlistedPhoneNumbers, v)
+		for k, v in pairs(json.decode(legF:read("*a"))) do
+			table.insert(allowlistedPhoneNumbers, k, v)
 		end
 		legF:close()
-		plugin:print("Imported legacy allowlist data. Total numbers: " .. #allowlistedPhoneNumbers)
+		plugin:print("Imported legacy allowlist data. Total phone numbers: " .. #allowlistedPhoneNumbers)
 
 		saveAllowlist()
 		os.remove(legacyPath)
@@ -124,7 +125,7 @@ plugin.commands["listallowlist"] = {
 plugin.commands["/allowlist"] = {
 	info = "Add a player to the allowlist.",
 	usage = "<phoneNumber>",
-	alias = { "al" },
+	alias = { "/al" },
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
@@ -150,6 +151,7 @@ plugin.commands["/allowlist"] = {
 
 plugin.commands["/unallowlist"] = {
 	info = "Remove a player from the allowlist.",
+	alias = { "/unal" },
 	usage = "<phoneNumber>",
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
