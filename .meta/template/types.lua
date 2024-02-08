@@ -1120,7 +1120,7 @@ do
 	---@field type integer Mission type, possible values are at https://github.com/jpxs-intl/RosaServer/wiki#mission-types.
 	---@field team1 integer First team ID for the mission, set for specific mission types.
 	---@field team2 integer Second team ID for the mission, only set in double disk buy mission type.
-	---@field value integer Bonus value of the mission; how much the corp will get for completing it. 
+	---@field value integer Bonus value of the mission; how much the corp will get for completing it.
 	---@field location integer Location, possible values are at https://github.com/jpxs-intl/RosaServer/wiki#mission-locations.
 	---@field providedCash integer Provided cash to the corp for the mission (for buying disks).
 end

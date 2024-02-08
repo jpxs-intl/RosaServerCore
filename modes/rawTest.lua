@@ -67,21 +67,18 @@ local function clickedEnterCity(ply)
 	end
 end
 
-mode:addHook(
-	"PlayerActions",
-	function(ply)
-		if not ply.human and mode.config.autoSpawn then
-			clickedEnterCity(ply)
-		elseif ply.numActions ~= ply.lastNumActions then
-			local action = ply:getAction(ply.lastNumActions)
+mode:addHook("PlayerActions", function(ply)
+	if not ply.human and mode.config.autoSpawn then
+		clickedEnterCity(ply)
+	elseif ply.numActions ~= ply.lastNumActions then
+		local action = ply:getAction(ply.lastNumActions)
 
-			if action.type == 0 and action.a == 1 and action.b == 1 then
-				clickedEnterCity(ply)
-				ply.lastNumActions = ply.numActions
-			end
+		if action.type == 0 and action.a == 1 and action.b == 1 then
+			clickedEnterCity(ply)
+			ply.lastNumActions = ply.numActions
 		end
 	end
-)
+end)
 
 mode.commands["/map"] = {
 	info = "Change the map.",

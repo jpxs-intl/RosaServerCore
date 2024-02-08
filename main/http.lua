@@ -31,8 +31,6 @@ local function getFreeCallbackIndex()
 	return callbackIndex
 end
 
----@diagnostic disable: missing-fields
-
 ---@param method string
 ---@param scheme string
 ---@param path string
@@ -66,12 +64,9 @@ local function handleMessage(message)
 	---@type HTTPResponse?
 	local res
 	if hasResponse == 1 then
-		res = {}
 		---@type string
 		local status, numHeaders, body
 		status, body, numHeaders, pos = unpack({ ("nsn"):unpack(message, pos) })
-		res.status = status
-		res.body = body
 
 		local headers = {}
 		for _ = 1, numHeaders do
@@ -80,7 +75,11 @@ local function handleMessage(message)
 			headers[key] = value
 		end
 
-		res.headers = headers
+		res = {
+			status = status,
+			body = body,
+			headers = headers,
+		}
 	end
 
 	callbacks[callbackIndex](res)

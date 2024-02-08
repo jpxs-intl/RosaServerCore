@@ -296,7 +296,7 @@ function plugin:require(modName)
 	if not self.requireCache[modName] then
 		local fileName = self.nameSpace .. "/" .. self.fileName .. "/" .. modName .. ".lua"
 		local loadedFile = assert(loadfile(fileName))
-		self.requireCache[modName] = {loadedFile(self)}
+		self.requireCache[modName] = { loadedFile(self) }
 	end
 
 	return unpack(self.requireCache[modName])

@@ -249,13 +249,10 @@ local function getRockwellWidth(str)
 	return width
 end
 
-plugin:addHook(
-	"PlayerChat",
-	function(ply, message)
-		local width = getRockwellWidth(message)
-		if width > plugin.config.maxPixelWidth then
-			ply:sendMessage("Message too long")
-			return hook.override
-		end
+plugin:addHook("PlayerChat", function(ply, message)
+	local width = getRockwellWidth(message)
+	if width > plugin.config.maxPixelWidth then
+		ply:sendMessage("Message too long")
+		return hook.override
 	end
-)
+end)

@@ -21,7 +21,7 @@
 ---@alias hooks.BulletMayHitHuman fun(bullet: Bullet): HookNoOverride
 ---@alias hooks.CalculateEarShots fun(connection: Connection, player: Player): HookReturn
 ---@alias hooks.CollideBodies fun(aBody: RigidBody, bBody: RigidBody, aLocalPos: Vector, bLocalPos: Vector, normal: Vector, a: number, b: number, c: number, d: number): HookReturn
----@alias hooks.ConsoleAutoComplete fun(data: ConsoleAutoCompleteData): HookNoOverride	
+---@alias hooks.ConsoleAutoComplete fun(data: ConsoleAutoCompleteData): HookNoOverride
 ---@alias hooks.ConsoleInput fun(input: string): HookNoOverride
 ---@alias hooks.CreateTraffic fun(amount: HookInteger): HookReturn
 ---@alias hooks.EconomyCarMarket fun(): HookReturn
@@ -37,7 +37,7 @@
 ---@alias hooks.EventUpdateVehicle fun(vehicle: Vehicle, updateType: integer, partID: integer, position: Vector, normal: Vector): HookReturn
 ---@alias hooks.GrenadeExplode fun(grenade: Item): HookReturn
 ---@alias hooks.HumanCollisionVehicle fun(human: Human, vehicle: Vehicle): HookReturn
----@alias hooks.HumanCreate fun(position: Vector, rotation: RotMatrix, player: Player): HookReturn	
+---@alias hooks.HumanCreate fun(position: Vector, rotation: RotMatrix, player: Player): HookReturn
 ---@alias hooks.HumanDamage fun(human: Human, bone: integer, damage: integer): HookReturn
 ---@alias hooks.HumanDelete fun(human: Human): HookReturn
 ---@alias hooks.HumanLimbInverseKinematics fun(human: Human, trunkBoneID: integer, branchBoneID: integer, destination: Vector, destinationAxis: RotMatrix, unk_vecA: Vector, unk_a: HookFloat, rotation: HookFloat, strength: HookFloat, unk_vecB: Vector, unk_vecC: Vector, flags: HookInteger): HookReturn
@@ -85,7 +85,7 @@
 ---@alias hooks.PostEventUpdateVehicle fun(vehicle: Vehicle, updateType: integer, partID: integer, position: Vector, normal: Vector): HookNoOverride
 ---@alias hooks.PostGrenadeExplode fun(grenade: Item): HookNoOverride
 ---@alias hooks.PostHumanCollisionVehicle fun(human: Human, vehicle: Vehicle): HookNoOverride
----@alias hooks.PostHumanCreate fun(human: Human): HookNoOverride	
+---@alias hooks.PostHumanCreate fun(human: Human): HookNoOverride
 ---@alias hooks.PostHumanDamage fun(human: Human, bone: integer, damage: integer): HookNoOverride
 ---@alias hooks.PostHumanDelete fun(human: Human): HookNoOverride
 ---@alias hooks.PostHumanLimbInverseKinematics fun(human: Human, trunkBoneID: integer, branchBoneID: integer, destination: Vector, destinationAxis: RotMatrix, unk_vecA: Vector, unk_a: number, rotation: number, strength: number, unk_vecB: Vector, unk_vecC: Vector, flags: integer): HookReturn

@@ -67,22 +67,16 @@ end
 do
 	local awaitConnected = {}
 
-	plugin:addHook(
-		"PostPlayerCreate",
-		function(ply)
-			awaitConnected[ply.index] = true
-		end
-	)
+	plugin:addHook("PostPlayerCreate", function(ply)
+		awaitConnected[ply.index] = true
+	end)
 
-	plugin:addHook(
-		"PostPlayerDelete",
-		function(ply)
-			awaitConnected[ply.index] = nil
-			if not ply.isBot then
-				log("[Exit] %s (%s)", ply.name, dashPhoneNumber(ply.phoneNumber))
-			end
+	plugin:addHook("PostPlayerDelete", function(ply)
+		awaitConnected[ply.index] = nil
+		if not ply.isBot then
+			log("[Exit] %s (%s)", ply.name, dashPhoneNumber(ply.phoneNumber))
 		end
-	)
+	end)
 
 	plugin:addHook("Logic", function()
 		for index, _ in pairs(awaitConnected) do
@@ -141,38 +135,29 @@ do
 		end
 	end)
 
-	plugin:addHook(
-		"EventMessage",
-		function(type, message, speakerId, distance)
-			if speakerId == -1 then
-				return
-			end
-			local ply, man
-
-			if type == 0 then
-				ply = players[speakerId]
-			elseif type == 1 then
-				man = humans[speakerId]
-				ply = man.player
-			else
-				return
-			end
-
-			if not ply then
-				return
-			end
-
-			if type == 1 then
-				log(
-					"[Chat][%s] %s (%s): %s",
-					distanceNames[distance],
-					ply.name,
-					dashPhoneNumber(ply.phoneNumber),
-					message
-				)
-			else
-				log("[Chat][X] %s (%s): %s", ply.name, dashPhoneNumber(ply.phoneNumber), message)
-			end
+	plugin:addHook("EventMessage", function(type, message, speakerId, distance)
+		if speakerId == -1 then
+			return
 		end
-	)
+		local ply, man
+
+		if type == 0 then
+			ply = players[speakerId]
+		elseif type == 1 then
+			man = humans[speakerId]
+			ply = man.player
+		else
+			return
+		end
+
+		if not ply then
+			return
+		end
+
+		if type == 1 then
+			log("[Chat][%s] %s (%s): %s", distanceNames[distance], ply.name, dashPhoneNumber(ply.phoneNumber), message)
+		else
+			log("[Chat][X] %s (%s): %s", ply.name, dashPhoneNumber(ply.phoneNumber), message)
+		end
+	end)
 end

@@ -2,6 +2,7 @@
 /font
 /*.txt
 /*.json
+!/.luarc.json
 /*.srk
 /*.x64
 /*.so

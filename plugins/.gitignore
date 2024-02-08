@@ -8,4 +8,4 @@
 !/shutdown.lua
 !/titleInfo.lua
 !/where.lua
-!/whitelist.lua
+!/allowlist.lua
