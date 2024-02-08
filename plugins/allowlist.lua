@@ -123,6 +123,7 @@ plugin.commands["listallowlist"] = {
 plugin.commands["/allowlist"] = {
 	info = "Add a player to the allowlist.",
 	usage = "<phoneNumber>",
+	alias = { "al" },
 	canCall = function(ply)
 		return ply.isConsole or ply.isAdmin
 	end,
