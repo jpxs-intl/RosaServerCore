@@ -80,6 +80,7 @@ plugin:addEnableHandler(function()
 		legF:close()
 		plugin:print("Imported legacy allowlist data. Total numbers: " .. #allowlistedPhoneNumbers)
 
+		saveAllowlist()
 		os.remove(legacyPath)
 	end
 end)
