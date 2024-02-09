@@ -375,7 +375,7 @@ function plugin:load(isEnabled, isReload)
 		loadedFile(self)
 	end)
 	if not success then
-		printScoped("Failed to load plugin: '" .. self.entryPath .. "' with error: ", err)
+		printScoped("\27[38;5;196mFailed to load plugin: '" .. self.entryPath .. "' with error: ", err)
 		self:disable(false)
 		return
 	end
