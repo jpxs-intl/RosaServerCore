@@ -9,6 +9,7 @@
 local keyBind = {}
 keyBind.__index = keyBind
 
+---Removes the keybind. Wrapper around `input:removeBind()`.
 function keyBind:destroy()
 	input:removeBind(self.name)
 end
