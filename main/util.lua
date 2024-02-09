@@ -249,7 +249,7 @@ function vecRandBetween(vec1, vec2)
 end
 
 ---Check if a string starts with another string.
----@param self string Added to avoid tying issues.
+---@param self string Added to avoid typing issues.
 ---@param start string The string to check against.
 ---@return boolean startsWith Whether this string starts with the other.
 function string.startsWith(self, start)
@@ -257,7 +257,7 @@ function string.startsWith(self, start)
 end
 
 ---Check if a string ends with another string.
----@param self string Added to avoid tying issues.
+---@param self string Added to avoid typing issues.
 ---@param ending string The string to check against.
 ---@return boolean endsWith Whether this string ends with the other.
 function string.endsWith(self, ending)
@@ -265,7 +265,7 @@ function string.endsWith(self, ending)
 end
 
 ---Split a string by its whitespace into lines of maximum length.
----@param self string Added to avoid tying issues.
+---@param self string Added to avoid typing issues.
 ---@param maxLen integer The maximum length of every line.
 ---@return string[] lines The split lines.
 function string.splitMaxLen(self, maxLen)
@@ -286,7 +286,7 @@ function string.splitMaxLen(self, maxLen)
 end
 
 ---Split a string into tokens using a separator character.
----@param self string Added to avoid tying issues.
+---@param self string Added to avoid typing issues.
 ---@param sep string The separator character.
 ---@return string[] fields The split tokens.
 function string.split(self, sep)
@@ -300,7 +300,7 @@ function string.split(self, sep)
 end
 
 ---Trim whitespace before and after a string.
----@param self string Added to avoid tying issues.
+---@param self string Added to avoid typing issues.
 ---@return string trimmed The trimmed string.
 ---@return integer count
 function string.trim(self)
