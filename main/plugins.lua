@@ -375,9 +375,11 @@ function plugin:load(isEnabled, isReload)
 		loadedFile(self)
 	end)
 	if not success then
-		printScoped("\27[38;5;196mFailed to load plugin: '" .. self.entryPath .. "' with error: ", err)
+		printScoped(
+			string.format("\27[38;5;196mFailed to load plugin: '%s' with error: %s", self.entryPath, err or "no error")
+		)
 		self:disable(false)
-		return
+		return false
 	end
 	self:setConfig()
 
@@ -387,6 +389,7 @@ function plugin:load(isEnabled, isReload)
 		hook.resetCache()
 		self:callEnableHandlers(isReload)
 	end
+	return true
 end
 
 function plugin:reload()
@@ -444,6 +447,7 @@ end
 
 local function discoverInNameSpace(nameSpace, isEnabledFunc)
 	local numLoaded = 0
+	local numErrored = 0
 
 	local entries = os.listDirectory(nameSpace)
 	for _, entry in ipairs(entries) do
@@ -463,20 +467,26 @@ local function discoverInNameSpace(nameSpace, isEnabledFunc)
 			local isEnabled = isEnabledFunc(plug)
 
 			printScoped(string.format("Loading \27[30;1m%s.\27[0m%s", nameSpace, entry.stem))
-			plug:load(isEnabled, false)
-
-			numLoaded = numLoaded + 1
+			local success = plug:load(isEnabled, false)
+			if success then
+				numLoaded = numLoaded + 1
+			else
+				numErrored = numErrored + 1
+			end
 		end
 	end
 
-	return numLoaded
+	return numLoaded, numErrored
 end
 
 local function loadPluginNameSpace(nameSpace, isEnabledFunc)
 	printScoped("Loading " .. nameSpace .. "...")
 
-	local numLoaded = discoverInNameSpace(nameSpace, isEnabledFunc)
+	local numLoaded, numErrored = discoverInNameSpace(nameSpace, isEnabledFunc)
 	printScoped("Loaded " .. numLoaded .. " " .. nameSpace)
+	if numErrored > 0 then
+		printScoped(string.format("\27[38;5;196mFailed to load %d %s! See above for error.", numErrored, nameSpace))
+	end
 
 	PLUGIN_WATCHER:addWatch(nameSpace, FILE_WATCH_MODIFY)
 end
