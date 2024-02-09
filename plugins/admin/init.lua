@@ -39,17 +39,6 @@ function adminLog(format, ...)
 	logFile:close()
 end
 
-plugin.commands["/resetlua"] = {
-	info = "Reset the Lua state and the game.",
-	canCall = function(ply)
-		return ply.isConsole or ply.isAdmin
-	end,
-	call = function(ply)
-		flagStateForReset(hook.persistentMode)
-		adminLog("%s reset the Lua state", ply.name)
-	end,
-}
-
 plugin.commands["/mode"] = {
 	info = "Change the enabled mode.",
 	usage = "<mode>",
