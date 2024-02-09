@@ -8,6 +8,7 @@ require("main.plugins")
 require("main.http")
 require("main.enum")
 require("main.dataTyper")
+require("main.input")
 
 local yaml = require("main.yaml")
 
