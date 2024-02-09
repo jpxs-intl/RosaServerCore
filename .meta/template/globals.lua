@@ -659,6 +659,16 @@ function events.createSound(soundType, item, volume, pitch) end
 ---@return Event event The created event.
 function events.createExplosion(position) end
 
+---Manual update corp mission event creation. Only use this if you know what you're doing!
+---Use corporation:updateMission instead!
+---@see Corporation.updateMission
+---@param corpIdx integer Corporation index in memory.
+---@param missionIdx integer Mission index in memory.
+function events.createEventUpdateCorpMission(corpIdx, missionIdx) end
+
+---Internal game networking function. Only use this if you know EXACTLY what you're doing!
+function events.prepareObjectPacket() end
+
 ---Library for directly reading and writing any memory.
 memory = {}
 
