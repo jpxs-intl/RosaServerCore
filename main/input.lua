@@ -15,6 +15,19 @@ input = {
 	_sortedBinds = {},
 }
 
+---Sorts the keybind table.
+---@param key integer Keycode input flag.
+---@private
+function input:_sortBindsForKey(key)
+	table.sort(self._sortedBinds[key], function(a, b)
+		local sortBind = input._keyBinds[a]
+		local sortOtherBind = input._keyBinds[b]
+		assert(sortBind and sortOtherBind, "keybinds in sort table non-existent")
+
+		return sortBind.priority < sortOtherBind.priority
+	end)
+end
+
 ---Sorts a new keybind into the sorted binds dict.
 ---@param name string Unique name of the bind.
 ---@private
@@ -27,13 +40,7 @@ function input:_sortNewBind(name)
 	end
 
 	table.insert(self._sortedBinds[bindData.key], name)
-	table.sort(self._sortedBinds[bindData.key], function(a, b)
-		local sortBind = input._keyBinds[a]
-		local sortOtherBind = input._keyBinds[b]
-		assert(sortBind and sortOtherBind, "keybinds in sort table non-existent")
-
-		return sortBind.priority < sortOtherBind.priority
-	end)
+	self:_sortBindsForKey(bindData.key)
 end
 
 ---Removes a keybind from the sorted table.
