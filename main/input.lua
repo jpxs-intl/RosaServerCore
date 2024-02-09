@@ -117,10 +117,12 @@ local function handleInputForPlayer(ply)
 		if currentPressing == key then
 			triggerBindsForKey(key, ply)
 			if lastPressing ~= key then
+				-- We are currently pressing the key, but weren't last tick.
 				triggerToggleBindsForKey(key, true, ply)
 			end
 		end
 		if lastPressing == key and currentPressing ~= key then
+			-- We were pressing the key last tick, but aren't now.
 			triggerToggleBindsForKey(key, false, ply)
 		end
 
