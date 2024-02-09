@@ -371,7 +371,14 @@ end
 function plugin:load(isEnabled, isReload)
 	local loadedFile = assert(loadfile(self.entryPath))
 
-	loadedFile(self)
+	local success, err = pcall(function()
+		loadedFile(self)
+	end)
+	if not success then
+		printScoped("Failed to load plugin: '" .. self.entryPath .. "' with error: ", err)
+		self:disable(false)
+		return
+	end
 	self:setConfig()
 
 	-- Mark as enabled
