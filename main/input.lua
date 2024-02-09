@@ -58,7 +58,7 @@ end
 ---@param toggle boolean? Whether the bind should be a toggle or not.
 function input:bind(name, key, callback, toggle, priority)
 	if toggle == nil then
-		toggle = false
+		toggle = true
 	end
 
 	---@type KeyBind
