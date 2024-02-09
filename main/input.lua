@@ -58,6 +58,7 @@ end
 ---@param priority integer? Lower priority keybinds are executed first before other keybinds on the same key.
 ---@param toggle boolean? Whether the bind should be a toggle or not.
 function input:bind(name, key, callback, toggle, priority)
+	assert(not self._keyBinds[name], "bind with the name " .. name .. " already exists!")
 	if toggle == nil then
 		toggle = true
 	end
