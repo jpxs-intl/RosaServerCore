@@ -6,13 +6,6 @@
 ---@field toggle boolean Whether the bind is a toggle (only fired once on press/release) or not (fired every tick while holding)
 ---@field priority integer Lower priority binds are executed sooner.
 ---@field key integer Actual keycode input flag.
-local keyBind = {}
-keyBind.__index = keyBind
-
----Removes the keybind. Wrapper around `input:removeBind()`.
-function keyBind:destroy()
-	input:removeBind(self.name)
-end
 
 ---@class InputLib
 ---@field private _keyBinds { [string]: KeyBind }
@@ -64,7 +57,6 @@ end
 ---@param callback fun(ply: Player, toggle: boolean?) Function to call when key is triggered. Toggle only present if bind is a toggle.
 ---@param priority integer? Lower priority keybinds are executed first before other keybinds on the same key.
 ---@param toggle boolean? Whether the bind should be a toggle or not.
----@return KeyBind keybindObject
 function input:bind(name, key, callback, toggle, priority)
 	if toggle == nil then
 		toggle = true
@@ -78,11 +70,8 @@ function input:bind(name, key, callback, toggle, priority)
 		priority = priority or 100,
 		key = key,
 	}
-	setmetatable(newBind, keyBind)
 	self._keyBinds[name] = newBind
 	self:_sortNewBind(name)
-
-	return newBind
 end
 
 ---Removes a keybind from the handler.
