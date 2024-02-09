@@ -155,7 +155,7 @@ do
 	---@deprecated
 	function RotMatrix:getRight() end
 
-	---Get a unit vector pointing in the rotation's forward (+Z) direction.
+	---Get a unit vector pointing in the rotation's forward (-Z) direction.
 	---@return Vector forward The unit vector.
 	function RotMatrix:forwardUnit() end
 
