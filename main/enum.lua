@@ -1,12 +1,12 @@
----@class Enum
+---@class enum
 enum = {}
 
----@enum Enum.sound
+---@enum enum.sound
 ---@see events.createSound
 ---@see Item.sound
 enum.sound = {}
 
----@enum Enum.sound.misc
+---@enum enum.sound.misc
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.misc = {
@@ -15,7 +15,7 @@ enum.sound.misc = {
 	explosion = 48,
 }
 
----@enum Enum.sound.weapon
+---@enum enum.sound.weapon
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon = {
@@ -23,12 +23,12 @@ enum.sound.weapon = {
 	shell_bounce = 40,
 }
 
----@enum Enum.sound.weapon.ricochet
+---@enum enum.sound.weapon.ricochet
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon.ricochet = { 11, 12, 13, 14, 15, 16, 17, 18 }
 
----@enum Enum.sound.weapon.bullet
+---@enum enum.sound.weapon.bullet
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon.bullet = {
@@ -38,32 +38,32 @@ enum.sound.weapon.bullet = {
 	hit_metal2 = 24,
 }
 
----@enum Enum.sound.weapon.ak47
+---@enum enum.sound.weapon.ak47
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon.ak47 = { 71, 72, 73, 74, 75, 76 }
 
----@enum Enum.sound.weapon.m16
+---@enum enum.sound.weapon.m16
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon.m16 = { 77, 78, 79, 80, 81, 82 }
 
----@enum Enum.sound.weapon.mp5
+---@enum enum.sound.weapon.mp5
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon.mp5 = { 83, 84, 85, 86, 87, 88 }
 
----@enum Enum.sound.weapon.uzi
+---@enum enum.sound.weapon.uzi
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon.uzi = { 89, 90, 91, 92, 93, 94 }
 
----@enum Enum.sound.weapon.pistol
+---@enum enum.sound.weapon.pistol
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.weapon.pistol = { 95, 96, 97, 98, 99, 100 }
 
----@enum Enum.sound.computer
+---@enum enum.sound.computer
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.computer = {
@@ -71,7 +71,7 @@ enum.sound.computer = {
 	disk_drive = 50,
 }
 
----@enum Enum.sound.phone
+---@enum enum.sound.phone
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.phone = {
@@ -79,13 +79,13 @@ enum.sound.phone = {
 	busy = 38,
 }
 
----@enum Enum.sound.phone.buttons
+---@enum enum.sound.phone.buttons
 ---Sounds in order from 0-9.
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.phone.buttons = { 28, 29, 30, 31, 32, 33, 34, 35, 36, 37 }
 
----@enum Enum.sound.vehicle
+---@enum enum.sound.vehicle
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.vehicle = {
@@ -101,12 +101,12 @@ enum.sound.vehicle = {
 	train_engine4 = 46,
 }
 
----@enum Enum.sound.vehicle.train
+---@enum enum.sound.vehicle.train
 ---@see events.createSound
 ---@see Item.sound
 enum.sound.vehicle.train = { 43, 44, 45, 46 }
 
----@enum Enum.item
+---@enum enum.item
 ---@see items.create
 enum.item = {
 	auto_5 = 0,
@@ -157,7 +157,7 @@ enum.item = {
 	melon = 45,
 }
 
----@enum Enum.item.disks
+---@enum enum.item.disks
 ---@see items.create
 enum.item.disks = {
 	black = 19,
@@ -168,7 +168,7 @@ enum.item.disks = {
 	red = 24,
 }
 
----@enum Enum.item.weapons
+---@enum enum.item.weapons
 ---@see items.create
 enum.item.weapons = {
 	auto_5 = 0,
@@ -181,7 +181,7 @@ enum.item.weapons = {
 	grenade = 13,
 }
 
----@enum Enum.item.ammo
+---@enum enum.item.ammo
 ---@see items.create
 enum.item.ammo = {
 	ak47_mag = 2,
@@ -192,7 +192,7 @@ enum.item.ammo = {
 	pistol_mag = 12,
 }
 
----@enum Enum.bullet
+---@enum enum.bullet
 ---@see events.createBullet
 enum.bullet = {
 	ak47 = 0,
@@ -203,7 +203,7 @@ enum.bullet = {
 
 enum.color = {}
 
----@enum Enum.color.computer
+---@enum enum.color.computer
 ---@see Item.computerSetLineColors
 enum.color.computer = {
 	black = 0,
@@ -224,7 +224,7 @@ enum.color.computer = {
 	white = 15,
 }
 
----@enum Enum.color.vehicle
+---@enum enum.color.vehicle
 ---@see Vehicle.color
 enum.color.vehicle = {
 	black = 0,
@@ -236,7 +236,7 @@ enum.color.vehicle = {
 	broken = 6,
 }
 
----@enum Enum.color.shirt
+---@enum enum.color.shirt
 ---@see Human.suitColor
 enum.color.shirt = {
 	white = 0,
@@ -250,7 +250,7 @@ enum.color.shirt = {
 	green_bright = 11,
 }
 
----@enum Enum.color.suit
+---@enum enum.color.suit
 ---@see Human.suitColor
 enum.color.suit = {
 	brown = 0,
@@ -267,7 +267,7 @@ enum.color.suit = {
 	gray_dark = 11,
 }
 
----@enum Enum.color.tie
+---@enum enum.color.tie
 ---@see Human.tieColor
 enum.color.tie = {
 	none = 0,
@@ -283,7 +283,7 @@ enum.color.tie = {
 	purple = 10,
 }
 
----@enum Enum.color.hair
+---@enum enum.color.hair
 ---@see Human.hairColor
 enum.color.hair = {
 	black = 0,
@@ -300,14 +300,14 @@ enum.color.hair = {
 	green = 11,
 }
 
----@enum Enum.clothing
+---@enum enum.clothing
 ---@see Human.model
 enum.clothing = {
 	casual = 0,
 	suit = 1,
 }
 
----@enum Enum.clothing.necklace
+---@enum enum.clothing.necklace
 ---@see Human.necklace
 enum.clothing.necklace = {
 	none = 0,
@@ -315,7 +315,7 @@ enum.clothing.necklace = {
 	big = 2,
 }
 
----@enum Enum.vehicle
+---@enum enum.vehicle
 ---@see vehicles.create
 enum.vehicle = {
 	town_car = 0,
@@ -337,7 +337,7 @@ enum.vehicle = {
 	turbo_test = 16,
 }
 
----@enum Enum.body
+---@enum enum.body
 ---@see Human.getRigidBody
 enum.body = {
 	pelvis = 0,
@@ -358,7 +358,7 @@ enum.body = {
 	foot_right = 15,
 }
 
----@enum Enum.movement
+---@enum enum.movement
 ---@see Human.movementState
 enum.movement = {
 	standing = 0,
@@ -370,7 +370,7 @@ enum.movement = {
 	straight_legs = 6,
 }
 
----@enum Enum.input
+---@enum enum.input
 ---@see Human.movementState
 enum.input = {
 	lmb = 2 ^ 0,
@@ -386,7 +386,7 @@ enum.input = {
 	z = 2 ^ 19,
 }
 
----@enum Enum.corporation
+---@enum enum.corporation
 ---@see corporations
 enum.corporation = {
 	goldmen = 0,
@@ -399,7 +399,7 @@ enum.corporation = {
 	civilian = 17,
 }
 
----@enum Enum.gamemode
+---@enum enum.gamemode
 ---@see Server.type
 enum.gamemode = {
 	practice = 0,
@@ -413,7 +413,7 @@ enum.gamemode = {
 	none = 8,
 }
 
----@enum Enum.state
+---@enum enum.state
 ---@see Server.state
 enum.state = {
 	idle = 0,
@@ -423,7 +423,7 @@ enum.state = {
 	paused = 4,
 }
 
----@enum Enum.menu
+---@enum enum.menu
 ---@see Player.menuTab
 enum.menu = {
 	none = 0,
@@ -450,7 +450,7 @@ enum.menu = {
 
 enum.mission = {}
 
----@enum Enum.mission.location
+---@enum enum.mission.location
 ---@see Mission.location
 enum.mission.location = {
 	hondo_park = 0,
@@ -463,7 +463,7 @@ enum.mission.location = {
 	red_cube_park = 7,
 }
 
----@enum Enum.mission.type
+---@enum enum.mission.type
 ---@see Mission.type
 enum.mission.type = {
 	building_acquisition = 0,

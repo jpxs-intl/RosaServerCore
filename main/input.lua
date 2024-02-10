@@ -1,14 +1,14 @@
 ---@diagnostic disable: lowercase-global
 
----@class KeyBind
+---@class main.input.KeyBind
 ---@field name string Unique name of bind.
 ---@field callback function Func to call on bind trigger.
 ---@field toggle boolean Whether the bind is a toggle (only fired once on press/release) or not (fired every tick while holding)
 ---@field priority integer Lower priority binds are executed sooner.
 ---@field key integer Actual keycode input flag.
 
----@class InputLib
----@field private _keyBinds { [string]: KeyBind }
+---@class main.input.InputLib
+---@field private _keyBinds { [string]: main.input.KeyBind }
 ---@field private _sortedBinds { [integer]: string[] }
 input = {
 	_keyBinds = {},
@@ -70,7 +70,7 @@ function input:bind(name, key, callback, toggle, priority)
 		toggle = true
 	end
 
-	---@type KeyBind
+	---@type main.input.KeyBind
 	local newBind = {
 		name = name,
 		callback = callback,

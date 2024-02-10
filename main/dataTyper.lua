@@ -1,5 +1,5 @@
 ---@diagnostic disable: lowercase-global
----@class DataTyper
+---@class main.DataTyper
 data = {}
 
 -- Formatted with class, type as strings
