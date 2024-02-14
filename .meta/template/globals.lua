@@ -677,7 +677,7 @@ memory = {}
 function memory.getBaseAddress() end
 
 ---Get the address of a game object.
----@param object Connection|Account|Player|Human|ItemType|Item|Vehicle|Bullet|Bone|RigidBody|Bond|Action|MenuButton|StreetLane|Street|StreetIntersection|Building|Corporation|Event
+---@param object Connection|Account|Player|Human|ItemType|Item|Vehicle|Bullet|Bone|RigidBody|Bond|Action|MenuButton|StreetLane|Street|StreetIntersection|Building|Corporation|Event|Voice|EarShot
 ---@return integer address
 function memory.getAddress(object) end
 
