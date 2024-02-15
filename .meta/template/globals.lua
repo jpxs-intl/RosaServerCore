@@ -166,21 +166,41 @@ function http.getSync(scheme, path, headers) end
 ---@return HTTPResponse? response
 function http.postSync(scheme, path, headers, body, contentType) end
 
----Library for zlib compression/decompression.
+---Library for zlib compression/decompression. Alias for lz4.
 zlib = {}
+
+---Compress a string of bytes. Use lz4 instead. This will use lz4 and not zlib!
+---Available in worker threads.
+---@param input string The data to compress.
+---@return string compressed The compressed data. This can be longer than the input if the input is very short.
+---@deprecated
+---@see lz4.compress
+function zlib.compress(input) end
+
+---Decompress a compressed string of bytes. Use lz4 instead. This will use lz4 and not zlib!
+---Available in worker threads.
+---@param compressed string The compressed data.
+---@param uncompressedSize integer The maximum size of the uncompressed data. This should be the size of the original data before compression.
+---@return string uncompressed The uncompressed data.
+---@deprecated
+---@see lz4.uncompress
+function zlib.uncompress(compressed, uncompressedSize) end
+
+---Library for lz4 compression/decompression.
+lz4 = {}
 
 ---Compress a string of bytes.
 ---Available in worker threads.
 ---@param input string The data to compress.
 ---@return string compressed The compressed data. This can be longer than the input if the input is very short.
-function zlib.compress(input) end
+function lz4.compress(input) end
 
 ---Decompress a compressed string of bytes.
 ---Available in worker threads.
 ---@param compressed string The compressed data.
 ---@param uncompressedSize integer The maximum size of the uncompressed data. This should be the size of the original data before compression.
 ---@return string uncompressed The uncompressed data.
-function zlib.uncompress(compressed, uncompressedSize) end
+function lz4.uncompress(compressed, uncompressedSize) end
 
 ---Library for crpytographic functions.
 crypto = {}
