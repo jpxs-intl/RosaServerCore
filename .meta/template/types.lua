@@ -63,6 +63,12 @@ do
 	---@field x number
 	---@field y number
 	---@field z number
+	---@operator add(Vector):Vector
+	---@operator sub(Vector):Vector
+	---@operator mul(number):Vector
+	---@operator mul(RotMatrix):Vector
+	---@operator div(number):Vector
+	---@operator unm:Vector
 	local Vector
 
 	---Add other to self.
@@ -130,6 +136,7 @@ do
 	---@field x3 number
 	---@field y3 number
 	---@field z3 number
+	---@operator mul(RotMatrix):RotMatrix
 	local RotMatrix
 
 	---Replace values with those in another matrix.
