@@ -197,7 +197,6 @@ end
 ---@field add fun(eventName: "PostItemDelete", name: string, func: hooks.PostItemDelete)
 ---@field add fun(eventName: "PostItemLink", name: string, func: hooks.PostItemLink)
 ---@field add fun(eventName: "PostLevelCreate", name: string, func: hooks.PostLevelCreate)
----@field add fun(eventName: "PostLineIntersectHuman", name: string, func: hooks.PostLineIntersectHuman)
 ---@field add fun(eventName: "PostLogicCoop", name: string, func: hooks.PostLogicCoop)
 ---@field add fun(eventName: "PostLogicRace", name: string, func: hooks.PostLogicRace)
 ---@field add fun(eventName: "PostLogicRound", name: string, func: hooks.PostLogicRound)

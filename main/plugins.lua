@@ -171,7 +171,6 @@ end
 ---@field addHook fun(self: Plugin, eventName: "PostItemDelete", func: hooks.PostItemDelete, options?: PluginHookOptions)
 ---@field addHook fun(self: Plugin, eventName: "PostItemLink", func: hooks.PostItemLink, options?: PluginHookOptions)
 ---@field addHook fun(self: Plugin, eventName: "PostLevelCreate", func: hooks.PostLevelCreate, options?: PluginHookOptions)
----@field addHook fun(self: Plugin, eventName: "PostLineIntersectHuman", func: hooks.PostLineIntersectHuman, options?: PluginHookOptions)
 ---@field addHook fun(self: Plugin, eventName: "PostLogicCoop", func: hooks.PostLogicCoop, options?: PluginHookOptions)
 ---@field addHook fun(self: Plugin, eventName: "PostLogicRace", func: hooks.PostLogicRace, options?: PluginHookOptions)
 ---@field addHook fun(self: Plugin, eventName: "PostLogicRound", func: hooks.PostLogicRound, options?: PluginHookOptions)
