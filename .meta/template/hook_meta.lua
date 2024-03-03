@@ -95,7 +95,6 @@
 ---@alias hooks.PostItemDelete fun(item: Item): HookNoOverride
 ---@alias hooks.PostItemLink fun(item: Item, childItem: Item|nil, parentHuman: Human|nil, slot: integer, worked: boolean): HookNoOverride
 ---@alias hooks.PostLevelCreate fun(): HookNoOverride
----@alias hooks.PostLineIntersectHuman fun(human: Human, posA: Vector, posB: Vector): HookNoOverride
 ---@alias hooks.PostLogicCoop fun(): HookNoOverride
 ---@alias hooks.PostLogicRace fun(): HookNoOverride
 ---@alias hooks.PostLogicRound fun(): HookNoOverride
