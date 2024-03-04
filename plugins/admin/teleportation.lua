@@ -1,6 +1,8 @@
 ---@type Plugin
 local plugin = ...
 
+---@param item Item
+---@param difference Vector
 local function moveItem(item, difference)
 	item.pos:add(difference)
 	item.rigidBody.pos:add(difference)
