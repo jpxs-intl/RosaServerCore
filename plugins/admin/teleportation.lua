@@ -6,7 +6,8 @@ local function moveItem(item, difference)
 	item.rigidBody.pos:add(difference)
 end
 
-local function teleportHumanWithItems(man, pos)
+---@diagnostic disable-next-line: lowercase-global
+function teleportHumanWithItems(man, pos)
 	local oldPos = man.pos:clone()
 	oldPos:mult(-1.0)
 	local difference = pos:clone()
