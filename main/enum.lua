@@ -338,6 +338,7 @@ enum.vehicle = {
 }
 
 ---@see Human.getRigidBody
+---@see Human.getBone
 ---@enum Enum.body
 enum.body = {
 	pelvis = 0,
