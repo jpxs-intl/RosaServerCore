@@ -6,6 +6,8 @@ local function moveItem(item, difference)
 	item.rigidBody.pos:add(difference)
 end
 
+---@param man Human
+---@param pos Vector
 ---@diagnostic disable-next-line: lowercase-global
 function teleportHumanWithItems(man, pos)
 	local oldPos = man.pos:clone()
