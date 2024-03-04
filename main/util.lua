@@ -65,6 +65,41 @@ function axisAngleToRotMatrix(axis, angle)
 	)
 end
 
+---Convert eulger angles to a RotMatrix.
+---@param pitch number The pitch (X) angle (in radians).
+---@param yaw number The yaw (Y) angle (in radians).
+---@param roll number The roll (Z) angle (in radians).
+---@return RotMatrix The converted rotation matrix.
+function eulerAnglesToRotMatrix(pitch, yaw, roll)
+	return yawToRotMatrix(yaw) * pitchToRotMatrix(pitch) * rollToRotMatrix(roll)
+end
+
+---Convert a RotMatrix to respective euler angles
+---@param rot RotMatrix The rotation matrix to convert.
+---@return number pitch The pitch (X) angle (in radians).
+---@return number yaw The yaw (Y) angle (in radians).
+---@return number roll The roll (Z) angle (in radians).
+function rotMatrixToEulerAngles(rot)
+	local pitch = math.asin(-rot[2][3])
+	local yaw = math.atan2(rot[1][3], rot[3][3])
+	local roll = math.atan2(rot[2][1], rot[2][2])
+
+	return pitch, yaw, roll
+end
+
+---Get a rotation matrix pointing from the start to the target
+---@param startPos Vector
+---@param targetPos Vector
+---@return RotMatrix
+function getRotLookingTowards(startPos, targetPos)
+	local dir = (targetPos - startPos)
+	dir:normalize()
+
+	local pitch = math.asin(-dir.y)
+	local yaw = math.atan2(dir.x, dir.z)
+	return yawToRotMatrix(yaw) * pitchToRotMatrix(pitch)
+end
+
 ---Table of useful compass orientations.
 orientations = {
 	n = yawToRotMatrix(0),
