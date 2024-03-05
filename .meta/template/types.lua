@@ -83,6 +83,10 @@ do
 	---@param other Vector The vector to inherit values from.
 	function Vector:set(other) end
 
+	---Replace values with current vector × another vector.
+	---@param other Vector The vector to cross with.
+	function Vector:cross(other) end
+
 	---Create a copy of self.
 	---@return Vector clone The created copy.
 	function Vector:clone() end
