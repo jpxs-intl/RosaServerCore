@@ -83,7 +83,8 @@ function rotMatrixToEulerAngles(rot)
 	local pitch = math.atan2(-rot.z2, rot.z3)
 	local yaw = math.atan2(rot.z1, math.sqrt((-rot.z2) ^ 2 + rot.z3 ^ 2))
 	local roll = math.atan2(-rot.x2, rot.x1)
-	if rot.z2 < 0 and rot.z3 < 0 then
+	if rot.z3 < 0 then
+		print("flipped my shit")
 		yaw = -yaw - math.pi
 		pitch = pitch + math.pi
 	end
