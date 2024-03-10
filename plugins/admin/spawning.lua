@@ -119,7 +119,7 @@ plugin.commands["/car"] = {
 		local vehicleType = getVehicleType(args[1] or "Town Car")
 		assert(vehicleType, "Invalid vehicle type")
 
-		local color = math.floor(args[2] or 1)
+		local color = math.floor(tonumber(args[2]) or 1)
 
 		local yaw = man.viewYaw - math.pi / 2
 
@@ -173,6 +173,7 @@ plugin.commands["/bot"] = {
 		local bot = players.createBot()
 		if bot ~= nil then
 			bot.name = ""
+			---@diagnostic disable-next-line: assign-type-mismatch
 			bot.team = team
 			bot.gender = 1
 			bot.skinColor = 0
@@ -205,7 +206,7 @@ plugin.commands["/cash"] = {
 	---@param ply Player
 	---@param args string[]
 	call = function(ply, _, args)
-		local amount = math.floor(args[1] or 100000)
+		local amount = math.floor(tonumber(args[1]) or 100000)
 		ply.money = ply.money + amount
 		ply:updateFinance()
 
@@ -273,6 +274,7 @@ plugin.commands["/botply"] = {
 				bot.gender = math.random(0, 1)
 				bot.name = "Bot"
 				bot.isReady = true
+				---@diagnostic disable-next-line: assign-type-mismatch
 				bot.team = team
 				bot:update()
 			end
@@ -303,6 +305,7 @@ plugin.commands["/del"] = {
 			pos.z + (dist * math.sin(yaw) * math.cos(pitch))
 		)
 
+		---@type ModifiedLineIntersectResult[]
 		local hitRays = {}
 
 		local ray = physics.lineIntersectLevel(pos, pos2, false)
@@ -312,6 +315,7 @@ plugin.commands["/del"] = {
 
 		for _, human in pairs(humans.getAll()) do
 			if human.index ~= man.index then
+				---@class ModifiedLineIntersectResult : LineIntersectResult
 				ray = physics.lineIntersectHuman(human, pos, pos2, 0.0)
 				if ray.hit then
 					ray.obj = human

@@ -96,6 +96,7 @@ local Null = types.null
 function Null.__tostring()
 	return "yaml.null"
 end
+
 function Null.isnull(v)
 	if v == nil then
 		return true
@@ -105,6 +106,7 @@ function Null.isnull(v)
 	end
 	return false
 end
+
 local null = Null()
 
 function types.timestamp:__init(y, m, d, h, i, s, f, z)
@@ -439,7 +441,7 @@ end
 local function parsescalar(line, lines, indent)
 	line = ltrim(line)
 	line = gsub(line, "^%s*#.*$", "") -- comment only -> ''
-	line = gsub(line, "^%s*", "") -- trim head spaces
+	line = gsub(line, "^%s*", "")  -- trim head spaces
 
 	if line == "" or line == "~" then
 		return null
@@ -538,11 +540,13 @@ local function parseseq(line, lines, indent)
 		if sfind(rest, "^[^'\"%s]*:") then
 			-- Inline nested hash
 			local indent2 = j
+			---@diagnostic disable-next-line: param-type-mismatch
 			lines[1] = string.rep(" ", indent2) .. rest
 			tinsert(seq, parsemap("", lines, indent2))
 		elseif sfind(rest, "^%-%s+") then
 			-- Inline nested seq
 			local indent2 = j
+			---@diagnostic disable-next-line: param-type-mismatch
 			lines[1] = string.rep(" ", indent2) .. rest
 			tinsert(seq, parseseq("", lines, indent2))
 		elseif isemptyline(rest) then
@@ -611,6 +615,7 @@ local function parseset(line, lines, indent)
 		if sfind(rest, "^[^'\"%s]*:") then
 			-- Inline nested hash
 			local indent2 = j
+			---@diagnostic disable-next-line: param-type-mismatch
 			lines[1] = string.rep(" ", indent2) .. rest
 			set[parsemap("", lines, indent2)] = true
 		elseif sfind(rest, "^%s+$") then
@@ -752,8 +757,8 @@ local function parsedocuments(lines)
 				tremove(lines, 1)
 			end
 			in_document = false
-		-- XXX The final '-+$' is to look for -- which ends up being an
-		-- error later.
+			-- XXX The final '-+$' is to look for -- which ends up being an
+			-- error later.
 		elseif not in_document and #root > 0 then
 			-- only the first document can be explicit
 			error("parse error: " .. line)
