@@ -441,7 +441,7 @@ end
 local function parsescalar(line, lines, indent)
 	line = ltrim(line)
 	line = gsub(line, "^%s*#.*$", "") -- comment only -> ''
-	line = gsub(line, "^%s*", "")  -- trim head spaces
+	line = gsub(line, "^%s*", "") -- trim head spaces
 
 	if line == "" or line == "~" then
 		return null
