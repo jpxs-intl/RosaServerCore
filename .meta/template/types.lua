@@ -28,6 +28,7 @@ do
 	---@field roundTeamDamage integer How much damage is done during same-team damage in round mode.
 	---@field roundWeekDay integer Current day of the week in round mode.
 	---@field ticksSinceReset integer Ticks since last call of `Server:reset()`.
+	---@field identifier integer A "unique" identifier for this server instance. (if you copy the srk file, this will be the same)
 	---@field type integer Gamemode number.
 	---@field levelToLoad string Name of the map to load on next reset.
 	---@field loadedLevel string Currently loaded level.
@@ -314,6 +315,9 @@ do
 	---@field viewYaw number Radians.
 	---@field viewPitch number Radians.
 	---@field viewYaw2 number Radians.
+	---@field viewYawVel integer
+	---@field gearX number Left to right stick shift position, -1 to 1.
+	---@field gearY number Forward to back stick shift position, -1 to 1.
 	---@field strafeInput number Left to right movement input, -1 to 1.
 	---@field walkInput number Backward to forward movement input, -1 to 1.
 	---@field viewPitch2 number Radians.
@@ -353,6 +357,7 @@ do
 	---@field isOnGround boolean 🔒
 	---@field isStanding boolean 🔒
 	---@field isBleeding boolean
+	---@field burgerEatCooldown integer Time before this human can eat another Burger, 300 tick timer. can eat at 0 ticks.
 	---@field player? Player The player controlling this human.
 	---@field account? Account The disconnected account that owns this human.
 	---@field vehicle? Vehicle The vehicle they are inside.
@@ -747,6 +752,7 @@ do
 	---@class Connection
 	---@field class string 🔒 "Connection"
 	---@field port integer
+	---@field numReceivedEvents integer How many events have been received.
 	---@field timeoutTime integer How many ticks the connection has not responded, will be deleted after 30 seconds.
 	---@field address string 🔒 IPv4 address ("x.x.x.x")
 	---@field adminVisible boolean Whether this connection is sent admin only events (admin messages).
@@ -1203,6 +1209,7 @@ end
 ---@field name string Not networked.
 ---@field price integer How much money is taken when bought.
 ---@field mass number In kilograms, kind of.
+---@field carBodyOffset Vector Strange offset for the collision position for the wheels.
 
 ---Represents a bullet currently flying through the air.
 ---Bullets can be moved around in memory every tick, so don't hold onto references.
