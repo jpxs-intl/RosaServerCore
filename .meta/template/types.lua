@@ -613,6 +613,7 @@ do
 	---@field engineRPM integer The RPM of the engine to be networked, 0 to 8191.
 	---@field numSeats integer The number of accessible seats.
 	---@field numWheels integer The number of wheels.
+	---@field acceleration number The acceleration of the vehicle. This is set to `VehicleType.acceleration * 213.0` by default
 	---@field index integer 🔒 The index of the array in memory this is (0-511).
 	---@field isActive boolean Whether or not this exists, only change if you know what you are doing.
 	---@field lastDriver? Player 🔒 The last person to drive the vehicle.
@@ -1210,6 +1211,7 @@ end
 ---@field price integer How much money is taken when bought.
 ---@field mass number In kilograms, kind of.
 ---@field carBodyOffset Vector Strange offset for the collision position for the wheels.
+---@field acceleration number How fast the vehicle can accelerate.
 
 ---Represents a bullet currently flying through the air.
 ---Bullets can be moved around in memory every tick, so don't hold onto references.
