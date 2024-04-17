@@ -1,8 +1,11 @@
 ---@diagnostic disable: lowercase-global
 
+---@alias main.input.BindToggleCallback fun(ply: Player, toggle: boolean)
+---@alias main.input.BindCallback fun(ply: Player, state: main.input.State)
+
 ---@class main.input.KeyBind
 ---@field name string Unique name of bind.
----@field callback function Func to call on bind trigger.
+---@field callback main.input.BindCallback|main.input.BindToggleCallback Func to call on bind trigger.
 ---@field toggle boolean Whether the bind is a toggle (only fired once on press/release) or not (fired every tick while holding)
 ---@field priority integer Lower priority binds are executed sooner.
 ---@field key integer Actual keycode input flag.
@@ -13,6 +16,14 @@
 input = {
 	_keyBinds = {},
 	_sortedBinds = {},
+}
+
+---Input state. Started pressing, stopped pressing, or currently pressing.
+---@enum main.input.State
+input.state = {
+	begin = 0,
+	ended = 1,
+	current = 2,
 }
 
 ---Sorts the keybind table.
@@ -61,7 +72,7 @@ end
 ---Adds a new keybind to be handled.
 ---@param name string Unique name of the bind.
 ---@param key integer Keycode input flag.
----@param callback fun(ply: Player, toggle: boolean?) Function to call when key is triggered. Toggle only present if bind is a toggle.
+---@param callback main.input.BindCallback|main.input.BindToggleCallback Function to call when key is triggered. Toggle only present if bind is a toggle.
 ---@param priority integer? Lower priority keybinds are executed first before other keybinds on the same key.
 ---@param toggle boolean? Whether the bind should be a toggle or not.
 function input:bind(name, key, callback, toggle, priority)
@@ -106,11 +117,12 @@ end
 
 ---@param key integer
 ---@param ply Player
-local function triggerBindsForKey(key, ply)
+---@param state main.input.State
+local function triggerBindsForKey(key, state, ply)
 	for _, bind in pairs(input._sortedBinds[key]) do
 		local bindData = input._keyBinds[bind]
 		if not bindData.toggle then
-			bindData.callback(ply)
+			bindData.callback(ply, state)
 		end
 	end
 end
@@ -125,15 +137,18 @@ local function handleInputForPlayer(ply)
 		local currentPressing = bit.band(ply.inputFlags, key)
 		local lastPressing = bit.band(ply.lastInputFlags, key)
 		if currentPressing == key then
-			triggerBindsForKey(key, ply)
 			if lastPressing ~= key then
 				-- We are currently pressing the key, but weren't last tick.
 				triggerToggleBindsForKey(key, true, ply)
+				triggerBindsForKey(key, input.state.begin, ply)
+			else
+				triggerBindsForKey(key, input.state.current, ply)
 			end
 		end
 		if lastPressing == key and currentPressing ~= key then
 			-- We were pressing the key last tick, but aren't now.
 			triggerToggleBindsForKey(key, false, ply)
+			triggerBindsForKey(key, input.state.ended, ply)
 		end
 
 		::continue::
