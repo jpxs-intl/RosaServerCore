@@ -1,3 +1,5 @@
+--# selene: allow(unused_variable)
+--# selene: allow(unscoped_variables)
 ---@meta
 
 ---@alias HookReturn 1 | 2 | nil

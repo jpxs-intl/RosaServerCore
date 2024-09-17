@@ -1,3 +1,5 @@
+--# selene: allow(unused_variable)
+--# selene: allow(unscoped_variables)
 ---@meta
 do
 	---Represents the server; only one instance in the global variable `server`.
@@ -668,7 +670,7 @@ do
 	---@field data table A Lua table which persists throughout the lifespan of this object.
 	---@field type integer 0 = bone, 1 = car body, 2 = wheel, 3 = item.
 	---@field mass number In kilograms, kind of.
-	---@field unk0 integer Unknown value. Only mess with this if you know what you're doing!
+	---@field linkedHumanOrItemID integer The index of the linked human or item to this RigidBody.. Only mess with this if you know what you're doing!
 	---@field pos Vector Position.
 	---@field vel Vector Velocity.
 	---@field rot RotMatrix Rotation.
@@ -807,8 +809,9 @@ do
 
 	---Create a new ChildProcess.
 	---@param fileName string The path to a lua file to execute in the child process.
+	---@param pipeBufferSize integer? The named pipe buffer size. Only touch if you know what you're doing.
 	---@return ChildProcess childProcess The created ChildProcess.
-	function ChildProcess.new(fileName) end
+	function ChildProcess.new(fileName, pipeBufferSize) end
 
 	---Check if the child process is currently running.
 	---@return boolean isRunning Whether the child process is running.

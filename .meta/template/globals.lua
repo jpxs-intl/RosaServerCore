@@ -1,3 +1,5 @@
+--# selene: allow(unused_variable)
+--# selene: allow(unscoped_variables)
 ---@meta
 bit32 = bit
 
