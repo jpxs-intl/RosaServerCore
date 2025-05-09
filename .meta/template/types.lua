@@ -235,11 +235,15 @@ do
 	---@field lastInputFlags integer Input flags from the last tick.
 	---@field zoomLevel integer 0 = run, 1 = walk, 2 = aim.
 	---@field inputType integer What the input fields are used for. 0 = none, 1 = human, 2 = car, 3 = helicopter. Defaults to 0.
+	---@field lastInputType integer The player's `inputType` on the last frame it was received, before its current value.
 	---@field menuTab integer What tab in the menu they are currently in.
+	---@field menuTabBuilding? Building The building currently targeted for the menu the player is in.
 	---@field numActions integer
 	---@field lastNumActions integer
 	---@field numMenuButtons integer
-	---@field itemsBought integer
+	---@field itemsBought integer Between 0 and 10 or 20 depending on game mode - decreases slowly over time, used for limiting amount of items bought in round/etc
+	---@field vehiclesBought integer Between 0 and 3 - decreases slowly over time, used for limiting amount of vehicles bought in round/etc
+	---@field withdrawnBills integer Between 0 and 40 - decreases slowly over time, used for limiting amount of money withdrawn in world mode
 	---@field gender integer 💾 0 = female, 1 = male.
 	---@field skinColor integer 💾 Starts at 0.
 	---@field hairColor integer 💾
@@ -253,9 +257,10 @@ do
 	---@field index integer 🔒 The index of the array in memory this is (0-255).
 	---@field isActive boolean 💾 Whether or not this exists, only change if you know what you are doing.
 	---@field name string 💾 Nickname of this player.
-	---@field isAdmin boolean
-	---@field isReady boolean
-	---@field isBot boolean 💾
+	---@field isAdmin boolean Whether the player is a server administrator.
+	---@field isReady boolean Whether the player is readied up on the Round/Eliminator pre-game screen.
+	---@field isRoundManager boolean Whether the player is the manager of their current team in Round mode.
+	---@field isBot boolean 💾 Whether the player is an AI/bot.
 	---@field isZombie boolean 💾 Whether the bot player should always run towards it's target.
 	---@field isGodMode boolean Whether the player is in godmode.
 	---@field human? Human 💾 The human they currently control.
@@ -318,6 +323,7 @@ do
 	---@field viewPitch number Radians.
 	---@field viewYaw2 number Radians.
 	---@field viewYawVel integer
+	---@field crouchHeight number Current height of the human crouch animation. 1.0 if not crouching.
 	---@field gearX number Left to right stick shift position, -1 to 1.
 	---@field gearY number Forward to back stick shift position, -1 to 1.
 	---@field strafeInput number Left to right movement input, -1 to 1.
@@ -467,6 +473,9 @@ do
 	---@field pos Vector Position.
 	---@field vel Vector Velocity.
 	---@field rot RotMatrix Rotation.
+	---@field boundingBoxCornerA Vector First corner of the current bounding box of the item in world space.
+	---@field boundingBoxCornerB Vector Second corner of the current bounding box of the item in world space.
+	---@field health integer Between 0 and 100 - used for melons currently to destroy on hit.
 	---@field bullets integer How many bullets are inside this item.
 	---@field numChildItems integer How many child/sub-items are linked to this item.
 	---@field memoText string Only valid if item type is a memo; holds the 1024 character memo string.
@@ -489,6 +498,8 @@ do
 	---@field grenadePrimer? Player The player who primed this grenade.
 	---@field phoneTexture integer 💾 The phone's texture ID. 0 for white, 1 for black.
 	---@field phoneNumber integer The number used to call this phone.
+	---@field inputFlags integer Bitflags of current buttons being pressed.
+	---@field lastInputFlags integer Input flags from the last tick.
 	---@field callerRingTimer integer Elapsed ticks since began ringing another phone. Value between 0 and 768.
 	---@field phoneStatus integer 💾 The status of the phone. 0 for idle, 1 for phone book, 2 for calling/ringing, 3 for call in progress, 4 for busy tone, 5 for out of service
 	---@field displayPhoneNumber integer 💾 The number currently displayed on the phone.
@@ -659,8 +670,12 @@ end
 ---@field class string 🔒 "Wheel"
 ---@field visualHeight number The height of the wheel.
 ---@field vehicleHeight number The height of the vehicle.
+---@field health integer The current health of the wheel. Between 0 and 8.
 ---@field spin number The spin constant of the wheel.
 ---@field skid number The skid constant of the wheel.
+---@field mass number The mass of the wheel.
+---@field size number The radius of the wheel.
+---@field isPopped boolean Whether the tire is currently popped on the wheel.
 ---@field rigidBody RigidBody 🔒 The rigid body representing the physics of this vehicle.
 
 do
