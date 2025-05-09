@@ -473,8 +473,8 @@ do
 	---@field pos Vector Position.
 	---@field vel Vector Velocity.
 	---@field rot RotMatrix Rotation.
-	---@field boundingBoxCornerA Vector First corner of the current bounding box of the item in world space.
-	---@field boundingBoxCornerB Vector Second corner of the current bounding box of the item in world space.
+	---@field boundingBoxCornerA Vector First corner (+XYZ) of the current bounding box of the item in world space.
+	---@field boundingBoxCornerB Vector Second corner (-XYZ) of the current bounding box of the item in world space.
 	---@field health integer Between 0 and 100 - used for melons currently to destroy on hit.
 	---@field bullets integer How many bullets are inside this item.
 	---@field numChildItems integer How many child/sub-items are linked to this item.
