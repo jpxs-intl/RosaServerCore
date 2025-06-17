@@ -130,6 +130,7 @@ plugin.commands["/pos"] = {
 
 		local pos = man.pos
 		local str = string.format("%.2f, %.2f, %.2f", pos.x, pos.y, pos.z)
+		plugin:print(string.format("%s: %s", ply.name, tostring(pos)))
 		ply:sendMessage(str)
 	end,
 }
